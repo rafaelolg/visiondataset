@@ -2,7 +2,7 @@ from fabric.api import env, settings, run
 from contextlib import contextmanager as _contextmanager
 from time import gmtime, strftime
 from fabric.api import *
-from fabutils.vagrant import get_vagrant_params
+from lib.fabutils.vagrant import get_vagrant_params
 from pprint import pprint
 
 @_contextmanager

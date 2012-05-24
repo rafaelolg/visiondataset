@@ -31,7 +31,7 @@ def prepare_server():
 	append("~/.bash_profile", "alias l=ls")
 	append("~/.bash_profile", "alias ll='ls -al'")
 	append("~/.bash_profile", "export PROJECT_NAME=%s" % env.project_name)
-	append("~/.bash_profile", "export VAGRANT_ROOT=/vagrant/deploy")
+	append("~/.bash_profile", "export VAGRANT_ROOT=/vagrant/%s"%env.project_name)
 
 	# make directory skeleton
 	run("mkdir -p ~/sites/%s/releases" % env.project_name)
@@ -68,7 +68,7 @@ def archive_current():
 
 	print(white("-->Using branch %s" % env.branch))
 	local('mkdir -p /tmp/%s' % env.release)
-	local('git archive %s visiondataset | tar -x -C /tmp/%s' % (env.branch, env.release))
+	local('git archive %s %s | tar -x -C /tmp/%s' % (env.branch,env.project_name, env.release))
 
 
 def upload_current():
@@ -81,7 +81,8 @@ def upload_current():
 		if exists("current"):
 			run("cp -R current/* releases/%s" % env.release)
 
-	rsync_project(remote_dir='%s/releases/%s' % (env.project_root, env.release), local_dir='/tmp/%s/deploy/' % env.release, delete=True)
+	rsync_project(remote_dir='%s/releases/%s' % (env.project_root, env.release),
+            local_dir='/tmp/%s/%s/' % (env.release, env.project_name), delete=True)
 
 
 def migrate():
@@ -99,7 +100,7 @@ def collect_static():
 
 def build_python_deps():
 	with current_project():
-		run("pip install -r requirements.txt")
+		run("pip install -r requirements/dev.txt")
 
 
 def upload_settings():
@@ -107,7 +108,7 @@ def upload_settings():
 	upload_template(filename='conf/nginx.conf', destination='/etc/nginx/sites-available/%s' % env.project_name, context=env, backup=False, use_sudo=True)
 	upload_template(filename='conf/upstart.conf', destination='/etc/init/%s.conf' % env.project_name, context=env, backup=False, use_sudo=True)
 	upload_template(filename='conf/uwsgi.ini', destination='%s' % env.project_root, context=env, backup=False, use_sudo=True)
-	upload_template(filename='conf/settings.py', destination='%s/releases/%s' % (env.project_root, env.release), context=env, backup=False, use_sudo=False)
+	#upload_template(filename='conf/settings.py', destination='%s/releases/%s' % (env.project_root, env.release), context=env, backup=False, use_sudo=False)
 
 	#re-link nginx conf
 	if exists("/etc/nginx/sites-enabled/%s" % env.project_name):
@@ -127,7 +128,6 @@ def link_current():
 	with cd(env.project_root):
 		if exists("current"):
 			run ('unlink current')
-
 		run("ln -s %s/releases/%s %s/current" % (env.project_root, env.release, env.project_root))
 
 

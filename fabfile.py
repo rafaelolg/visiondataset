@@ -7,10 +7,10 @@ from fabric.colors import *
 from environments import *
 from pprint import pprint
 
-import fabutils
-from fabutils import fetch
-from fabutils.db import postgres
-from fabutils.distros import ubuntu
+import lib.fabutils as fabutils
+from lib.fabutils import fetch
+from lib.fabutils.db import postgres
+from lib.fabutils.distros import ubuntu
 
 
 def bootstrap():
@@ -23,6 +23,7 @@ def bootstrap():
 
 
 def deploy():
+    import ipdb;ipdb.set_trace()
     fabutils.archive_current()
     fabutils.upload_current()
     configure()
