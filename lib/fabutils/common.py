@@ -68,7 +68,7 @@ def archive_current():
 
 	print(white("-->Using branch %s" % env.branch))
 	local('mkdir -p /tmp/%s' % env.release)
-	local('git archive %s %s | tar -x -C /tmp/%s' % (env.branch,env.project_name, env.release))
+	local('git archive %s | tar -x -C /tmp/%s' % (env.branch, env.release))
 
 
 def upload_current():
@@ -82,7 +82,7 @@ def upload_current():
 			run("cp -R current/* releases/%s" % env.release)
 
 	rsync_project(remote_dir='%s/releases/%s' % (env.project_root, env.release),
-            local_dir='/tmp/%s/%s/' % (env.release, env.project_name), delete=True)
+            local_dir='/tmp/%s' % env.release, delete=True)
 
 
 def migrate():
