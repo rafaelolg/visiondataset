@@ -13,13 +13,13 @@ rescue Errno::ENOENT # No vagrantconfig_local.yaml found -- that's OK; just
 end
 
 CONF = _config
-MOUNT_POINT = '/home/vagrant/project'
+MOUNT_POINT = '/home/vagrant/visiondataset'
 
 Vagrant::Config.run do |config|
-    config.vm.box = "lucid32"
-    config.vm.box_url = "http://files.vagrantup.com/lucid32.box"
+    config.vm.box = "precise32"
+    config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
-    config.vm.forward_port 8000, 8000
+    config.vm.forward_port 80, 8000
 
     # Increase vagrant's patience during hang-y CentOS bootup
     # see: https://github.com/jedi4ever/veewee/issues/14

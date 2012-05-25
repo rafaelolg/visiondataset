@@ -31,7 +31,7 @@ def prepare_server():
 	append("~/.bash_profile", "alias l=ls")
 	append("~/.bash_profile", "alias ll='ls -al'")
 	append("~/.bash_profile", "export PROJECT_NAME=%s" % env.project_name)
-	append("~/.bash_profile", "export VAGRANT_ROOT=/vagrant/%s"%env.project_name)
+	append("~/.bash_profile", "export VAGRANT_ROOT=/home/vagrant/project/%s"%env.project_name)
 
 	# make directory skeleton
 	run("mkdir -p ~/sites/%s/releases" % env.project_name)
@@ -104,65 +104,62 @@ def build_python_deps():
 
 
 def upload_settings():
-	#upload templates
-	upload_template(filename='conf/nginx.conf', destination='/etc/nginx/sites-available/%s' % env.project_name, context=env, backup=False, use_sudo=True)
-	upload_template(filename='conf/upstart.conf', destination='/etc/init/%s.conf' % env.project_name, context=env, backup=False, use_sudo=True)
-	upload_template(filename='conf/uwsgi.ini', destination='%s' % env.project_root, context=env, backup=False, use_sudo=True)
-	upload_template(filename='conf/settings_local.py',
+    #upload templates
+    upload_template(filename='conf/nginx.conf', destination='/etc/nginx/sites-available/%s' % env.project_name, context=env, backup=False, use_sudo=True)
+    upload_template(filename='conf/upstart.conf', destination='/etc/init/%s.conf' % env.project_name, context=env, backup=False, use_sudo=True)
+    upload_template(filename='conf/uwsgi.ini', destination='%s' % env.project_root, context=env, backup=False, use_sudo=True)
+    upload_template(filename='conf/settings_local.py',
             destination='%s/releases/%s/%s/settings/local.py' %
             (env.project_root, env.release, env.project_name), context=env, backup=False, use_sudo=False)
-
-	#re-link nginx conf
-	if exists("/etc/nginx/sites-enabled/%s" % env.project_name):
-		sudo("unlink /etc/nginx/sites-enabled/%s" % env.project_name)
-	if exists("/etc/nginx/sites-enabled/default"):
-		sudo("unlink /etc/nginx/sites-enabled/default")
-	sudo("ln -s /etc/nginx/sites-available/%s /etc/nginx/sites-enabled/%s" % (env.project_name, env.project_name))
+    #re-link nginx conf
+    if exists("/etc/nginx/sites-enabled/%s" % env.project_name):
+        sudo("unlink /etc/nginx/sites-enabled/%s" % env.project_name)
+    if exists("/etc/nginx/sites-enabled/default"):
+        sudo("unlink /etc/nginx/sites-enabled/default")
+    sudo("ln -s /etc/nginx/sites-available/%s /etc/nginx/sites-enabled/%s" % (env.project_name, env.project_name))
 
 
 def set_permissions():
-	#make sure manage.py is executable
-	with current_project():
-		run('chmod +x manage.py')
+    #make sure manage.py is executable
+    with current_project():
+        run('chmod +x manage.py')
 
 
 def link_current():
-	with cd(env.project_root):
-		if exists("current"):
-			run ('unlink current')
-		run("ln -s %s/releases/%s %s/current" % (env.project_root, env.release, env.project_root))
+    with cd(env.project_root):
+        if exists("current"):
+            run ('unlink current')
+        run("ln -s %s/releases/%s %s/current" % (env.project_root, env.release, env.project_root))
 
 
 def prune_releases():
-	"""Remove all but the 5 most recent release directories."""
-	files = get_releases()
-	del files[-5:]
-
-	print white("removing folders: %r" % files)
-
-	for f in files:
-		run("rm -rf %s" % f)
+    """Remove all but the 5 most recent release directories."""
+    files = get_releases()
+    del files[-5:]
+    print white("removing folders: %r" % files)
+    for f in files:
+        run("rm -rf %s" % f)
 
 
 def get_releases():
-	"""Return array of release directories with names that start with a number."""
-	files = run('ls -a %s/releases' % env.project_root)
-	files = re.split("[\s]+", files)
-	files = filter(lambda f: re.match("^[\d]+", f), files)
-	files = map(lambda f: "%s/releases/%s" % (env.project_root, f), files)
-	files.sort()
-	return files
+    """Return array of release directories with names that start with a number."""
+    files = run('ls -a %s/releases' % env.project_root)
+    files = re.split("[\s]+", files)
+    files = filter(lambda f: re.match("^[\d]+", f), files)
+    files = map(lambda f: "%s/releases/%s" % (env.project_root, f), files)
+    files.sort()
+    return files
 
 
 def cleanup():
-	"""Just to be sure."""
-	with current_project():
-		run('rm -rf *.pyc')
+    """Just to be sure."""
+    with current_project():
+        run('rm -rf *.pyc')
 
 
 def migrate_app(app_name, initial):
-	"""Run migration on app_name using South"""
-	with vagrant_env():
-		flag = ("auto", "initial")[initial]
-		run('./manage.py schemamigration --%s %s' % (flag, app_name))
-		run('./manage.py migrate %s' % app_name)
+    """Run migration on app_name using South"""
+    with vagrant_env():
+        flag = ("auto", "initial")[initial]
+        run('./manage.py schemamigration --%s %s' % (flag, app_name))
+        run('./manage.py migrate %s' % app_name)
