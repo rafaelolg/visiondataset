@@ -100,7 +100,7 @@ def collect_static():
 
 def build_python_deps():
 	with current_project():
-		run("pip install -r requirements/dev.txt")
+		run("pip install -r requirements/all.txt")
 
 
 def upload_settings():
