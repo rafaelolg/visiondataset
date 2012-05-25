@@ -23,7 +23,6 @@ def bootstrap():
 
 
 def deploy():
-    import ipdb;ipdb.set_trace()
     fabutils.archive_current()
     fabutils.upload_current()
     configure()
