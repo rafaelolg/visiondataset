@@ -37,3 +37,4 @@ ssh==1.7.14
 -e git://github.com/jbalogh/test-utils.git@85da2227dea9cc20226e863838497949f1c53193#egg=test_utils-dev
 wsgiref==0.1.2
 psycopg2
+uWSGI
