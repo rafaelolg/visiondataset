@@ -2,9 +2,7 @@
 This is your project's main settings file that can be committed to your
 repo. If you need to override a setting locally, use local.py
 """
-
 import os
-#import memcache_toolbar.panels.memcache
 
 # Your project root
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__) + "../../../")
@@ -49,21 +47,18 @@ INSTALLED_APPS = [
         'django.contrib.humanize',
         'django.contrib.syndication',
         'django.contrib.staticfiles',
-        # Third-party apps, patches, fixes
-        'commonware.response.cookies',
-        'djcelery',
-        'django_nose',
-        'debug_toolbar',
-        'easy_thumbnails',
-        'guardian',
-        'userena',
-        #'debug_toolbar_user_panel',
-        #'memcache_toolbar',
-        # Database migrations
+        #migrations
         'south',
         # Local apps, referenced via visiondataset.appname
         'visiondataset.base',
         'visiondataset.datasets',
+        # Third-party apps, patches, fixes
+        'debug_toolbar',
+        'commonware.response.cookies',
+        'djcelery',
+        'easy_thumbnails',
+        'guardian',
+        'userena',
         ]
 
 # Place bcrypt first in the list, so it will be the default password hashing
@@ -86,8 +81,6 @@ SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = False
 
 ## Tests
-TEST_RUNNER = 'test_utils.runner.RadicalTestSuiteRunner'
-
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.example.com/media/"
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
@@ -161,12 +154,10 @@ TEMPLATE_DIRS = (
     # "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_ROOT, 'templates'),
 )
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )
 
