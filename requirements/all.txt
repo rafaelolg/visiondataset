@@ -38,3 +38,4 @@ ssh==1.7.14
 wsgiref==0.1.2
 psycopg2
 uWSGI
+django-userena

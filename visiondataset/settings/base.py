@@ -37,9 +37,6 @@ SITE_ID = 1
 ROOT_URLCONF = 'visiondataset.urls'
 
 INSTALLED_APPS = [
-        # Template apps
-        'jingo_minify',
-
         # Django contrib apps
         'django.contrib.auth',
         'django.contrib.contenttypes',
@@ -57,8 +54,11 @@ INSTALLED_APPS = [
         'commonware.response.cookies',
         'djcelery',
         'django_nose',
-        'session_csrf',
         'debug_toolbar',
+        'easy_thumbnails',
+        'guardian',
+        'userena',
+
         #'debug_toolbar_user_panel',
         #'memcache_toolbar',
 
@@ -140,12 +140,16 @@ STATICFILES_FINDERS = (
 MIDDLEWARE_CLASSES = [
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'session_csrf.CsrfMiddleware',  # Must be after auth middleware.
     'django.contrib.messages.middleware.MessageMiddleware',
     'commonware.middleware.FrameOptionsHeader',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'userena.middleware.UserenaLocaleMiddleware',
 ]
+
+
+
 
 TEMPLATE_CONTEXT_PROCESSORS = [
     'django.contrib.auth.context_processors.auth',
@@ -154,9 +158,7 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     'django.core.context_processors.request',
     'django.core.context_processors.i18n',
     'django.core.context_processors.static',
-    'session_csrf.context_processor',
     'django.contrib.messages.context_processors.messages',
-    #'jingo_minify.helpers.build_ids',
 ]
 
 TEMPLATE_DIRS = (
@@ -169,7 +171,6 @@ TEMPLATE_DIRS = (
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'jingo.Loader',
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )
@@ -208,7 +209,7 @@ DEBUG_TOOLBAR_PANELS = (
 )
 
 # Specify a model to use for user profiles, if desired.
-#AUTH_PROFILE_MODULE = 'visiondataset.accounts.UserProfile'
+AUTH_PROFILE_MODULE = 'base.UserProfile'
 
 FILE_UPLOAD_PERMISSIONS = 0664
 
@@ -223,3 +224,18 @@ JINGO_EXCLUDE_APPS = [
 
 # The WSGI Application to use for runserver
 WSGI_APPLICATION = 'visiondataset.wsgi.application'
+
+
+AUTHENTICATION_BACKENDS = (
+    'userena.backends.UserenaAuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# Make this unique, and don't share it with anybody.  It cannot be blank.
+SECRET_KEY = '9sbj=it#)$exj3w5!hqtq*^$^se-(1=ywov-b*v_r3!eoufa=h'
+
+LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+LOGIN_URL = '/accounts/signin/'
+LOGOUT_URL = '/accounts/signout/'
+ANONYMOUS_USER_ID = -1
