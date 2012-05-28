@@ -20,7 +20,7 @@ def common():
     env.release = strftime('%Y%m%d%H%M%S', gmtime())
 
 
-def dev():
+def vagrant():
     vp = get_vagrant_params()
     with common():
         env.user                = vp.get('user')
@@ -28,7 +28,6 @@ def dev():
         env.hosts               = ['%s:%s' % (vp.get('host'), vp.get('port'))]
         env.key_filename        = vp.get('identity_file')
         env.debug               = True
-        env.disable_knows_hosts = True
 
 
 # TODO: You edit this

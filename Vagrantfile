@@ -33,7 +33,7 @@ Vagrant::Config.run do |config|
         config.vm.share_folder("v-root", MOUNT_POINT, ".", :nfs => true)
     end
 
-    # Add to /etc/hosts: 33.33.33.24 dev.example.com
+    # Add to /etc/hosts: 33.33.33.60 dev.example.com
     config.vm.network :hostonly, "33.33.33.60"
 
     #config.vm.provision :puppet do |puppet|
