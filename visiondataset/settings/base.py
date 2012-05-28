@@ -49,7 +49,6 @@ INSTALLED_APPS = [
         'django.contrib.humanize',
         'django.contrib.syndication',
         'django.contrib.staticfiles',
-
         # Third-party apps, patches, fixes
         'commonware.response.cookies',
         'djcelery',
@@ -58,17 +57,13 @@ INSTALLED_APPS = [
         'easy_thumbnails',
         'guardian',
         'userena',
-
         #'debug_toolbar_user_panel',
         #'memcache_toolbar',
-
         # Database migrations
         'south',
-
-        # Application base, containing global templates.
-        'visiondataset.base',
-
         # Local apps, referenced via visiondataset.appname
+        'visiondataset.base',
+        'visiondataset.datasets',
         ]
 
 # Place bcrypt first in the list, so it will be the default password hashing
