@@ -21,6 +21,9 @@ def common():
 
 
 def vagrant():
+    '''
+    Embeeded vagrant environment.
+    '''
     vp = get_vagrant_params()
     with common():
         env.user                = vp.get('user')

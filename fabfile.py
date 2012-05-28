@@ -13,7 +13,11 @@ from lib.fabutils.db import postgres
 from lib.fabutils.distros import ubuntu
 
 
-def bootstrap():
+def setup():
+    """
+    Install the system requirements (Ubuntu)
+    and then runs deploy().
+    """
     fabutils.prepare_server()
     ubuntu.install_distro_deps()
     ubuntu.init_nginx()
@@ -23,23 +27,25 @@ def bootstrap():
 
 
 def deploy():
+    """
+    Send the conf files, and current commited project
+    to host archiving the old release.
+    Install (within the virtual env) the requirements/all.txt packages.
+    Run the syncdb and south migration.
+    Restart the nginx server.
+    """
     fabutils.archive_current()
     fabutils.upload_current()
-    configure()
+    fabutils.build_python_deps()
+    fabutils.upload_settings()
     fabutils.set_permissions()
     fabutils.migrate()
-    #rebuild_index()
     fabutils.collect_static()
-    #compress_js_and_css()
-    #prune_releases()
     fabutils.link_current()
     restart_server()
     fabutils.cleanup()
 
 
-def configure():
-	fabutils.build_python_deps()
-	fabutils.upload_settings()
 
 
 def start_server():
