@@ -1,0 +1,17 @@
+[
+  {
+    "pk": 1, 
+    "model": "sites.site", 
+    "fields": {
+      "domain": "visiondataset.vision.ime.usp.br", 
+      "name": "visiondataset.vision.ime.usp.br"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "datasets.datatype", 
+    "fields": {
+      "slug": "image"
+    }
+  }
+]

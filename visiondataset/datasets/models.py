@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 class Dataset(models.Model):
     """Set of datums"""
     creation_time = models.TimeField(auto_now_add=True)
+    name = models.CharField(max_length=256, blank=False)
     owner = models.ForeignKey(User, null=False)
     class Meta:
         permissions = (
@@ -12,6 +13,20 @@ class Dataset(models.Model):
             ('add_datum_dataset', _('Add elements')),
         )
         get_latest_by = 'creation_time'
+    def __unicode__(self):
+        return self.name
+
+
+
+class DataType(models.Model):
+    """docstring"""
+    slug = models.SlugField(max_length=50, blank=True)
+    @models.permalink
+    def get_absolute_url(self):
+        return ('datatype_view',(),{'slug':str(self.slug)})
+    def __unicode__(self):
+        return self.slug
+
 
 class Datum(models.Model):
     """Data element"""
@@ -20,9 +35,13 @@ class Datum(models.Model):
     creation_time = models.TimeField(auto_now_add=True)
     name = models.CharField(max_length=256, blank=False)
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to='datum', max_length=256)
+    package = models.FileField(upload_to='datum', max_length=100)
+    dtype = models.ForeignKey(DataType)
     class Meta:
         permissions = (
             ('view_datum', _('View Element Datum')),
         )
         get_latest_by = 'creation_time'
+    def __unicode__(self):
+        self.name
+
