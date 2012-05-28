@@ -39,3 +39,4 @@ wsgiref==0.1.2
 psycopg2
 uWSGI
 django-userena
+pil
