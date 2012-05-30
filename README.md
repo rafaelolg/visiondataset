@@ -18,7 +18,7 @@ Fill out with installation instructions for your project.
 
 License
 -------
-This software is licensed under the [New BSD License][BSD]. For more
+This software is licensed under the [GPLv3][GPL]. For more
 information, read the file ``LICENSE``.
 
-[BSD]: http://opensource.org/licenses/BSD-3-Clause
+[GPL]: http://www.gnu.org/copyleft/gpl.html
