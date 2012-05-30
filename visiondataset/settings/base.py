@@ -53,6 +53,7 @@ INSTALLED_APPS = [
         'visiondataset.base',
         'visiondataset.datasets',
         # Third-party apps, patches, fixes
+        'django_extensions',
         'debug_toolbar',
         'commonware.response.cookies',
         'djcelery',

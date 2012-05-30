@@ -11,11 +11,13 @@ pycrypto==2.6
 django-userena
 pil
 docutils==0.9
+django-extensions==0.8
 #production
 python-memcached==1.48
 psycopg2
 uWSGI
 #dev
+Werkzeug==0.8.3
 pylint==0.25.1
 pep8==1.1
 Sphinx==1.1.3
