@@ -76,6 +76,20 @@
 
     <div class="container-fluid">
         <div class="row-fluid">
+            <div class="span2">
+                <div class="well sidebar-nav">
+                {%block sidebar%}
+                    <ul class="nav nav-list">
+                        <li class="nav-header">Sidebar</li>
+                        <li class="active"><a href="#">Link</a></li>
+                        <li><a href="#">Link</a></li>
+                        <li><a href="#">Link</a></li>
+                        <li><a href="#">Link</a></li>
+                    </ul>
+                {%endblock sidebar%}
+                </div><!--/.well -->
+            </div><!--/span-->
+
             <div class="span10">
                 {% block content %}{% endblock %}
             </div><!--/span-->
