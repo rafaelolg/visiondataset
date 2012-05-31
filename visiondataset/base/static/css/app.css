@@ -9,7 +9,13 @@
       body {
         padding-top: 60px;
         padding-bottom: 40px;
+        font-family: "ProximaNova","Helvetica Neue",helvetica,arial,sans-serif;
       }
       .sidebar-nav {
         padding: 9px 0;
+      }
+
+      .dataset {
+          background-color: #fefefe;
+          border: 1px solid rgba(0, 0, 0, 0.1);
       }

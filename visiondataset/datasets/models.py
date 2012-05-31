@@ -10,6 +10,7 @@ class Dataset(models.Model):
     slug = AutoSlugField(_('slug'), populate_from='name')
     owner = models.ForeignKey(User, related_name='+')
     created = CreationDateTimeField(_('created'))
+    description = models.TextField(_('description'), blank=True)
 
     class Meta:
         permissions = (
@@ -24,7 +25,7 @@ class Dataset(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('dataset.views.datatype',(),{'slug':str(self.slug)})
+        return ('datasets.views.datatype',(),{'slug':str(self.slug)})
 
 
 class DataType(models.Model):
@@ -37,7 +38,7 @@ class DataType(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('dataset.views.datatype',(),{'slug':str(self.slug)})
+        return ('datasets.views.datatype',(),{'slug':str(self.slug)})
 
 
 class Datum(models.Model):
@@ -63,5 +64,5 @@ class Datum(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('dataset.views.datatype',(),{'slug':str(self.slug)})
+        return ('datasets.views.datatype',(),{'slug':str(self.slug)})
 
