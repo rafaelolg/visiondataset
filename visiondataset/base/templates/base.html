@@ -28,7 +28,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{STATIC_URL}}apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72"   href="{{STATIC_URL}}apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed"                 href="{{STATIC_URL}}apple-touch-icon-57-precomposed.png">
-
 </head>
 <body class="{% block body_class %}{% endblock %}">
     {% block body %}
@@ -76,6 +75,7 @@
 
     <div class="container-fluid">
         <div class="row-fluid">
+            {%block sidebar_placeholder%} {%endblock sidebar_placeholder%}
             <div class="span10">
                 {% block content %}{% endblock %}
             </div><!--/span-->
