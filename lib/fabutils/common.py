@@ -89,7 +89,6 @@ def migrate():
 	with current_project():
 		run( './manage.py syncdb' )
 		run( './manage.py migrate --all --delete-ghost-migrations' )
-        run('./manage.py check_permissions')
 
 
 def collect_static():

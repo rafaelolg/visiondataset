@@ -30,7 +30,7 @@ def vagrant():
         env.domain              = 'localhost'
         env.hosts               = ['%s:%s' % (vp.get('host'), vp.get('port'))]
         env.key_filename        = vp.get('identity_file')
-        env.debug               = True
+        env.debug               = False
 
 
 # TODO: You edit this
