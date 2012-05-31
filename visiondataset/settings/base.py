@@ -54,8 +54,9 @@ INSTALLED_APPS = [
         'visiondataset.datasets',
         # Third-party apps, patches, fixes
         'django_extensions',
-        'debug_toolbar',
         'commonware.response.cookies',
+        'debug_toolbar',
+        'debug_toolbar_user_panel',
         'djcelery',
         'easy_thumbnails',
         'guardian',
@@ -167,14 +168,14 @@ FIXTURE_DIRS = (
 )
 
 
-def custom_show_toolbar(request):
-    """ Only show the debug toolbar to users with the superuser flag. """
-    return request.user.is_superuser
+#def custom_show_toolbar(request):
+#    """ Only show the debug toolbar to users with the superuser flag. """
+#    return request.user.is_superuser
 
 
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
-    'SHOW_TOOLBAR_CALLBACK': custom_show_toolbar,
+#    'SHOW_TOOLBAR_CALLBACK': custom_show_toolbar,
     'HIDE_DJANGO_SQL': True,
     'TAG': 'body',
     'SHOW_TEMPLATE_CONTEXT': True,
@@ -182,7 +183,7 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 DEBUG_TOOLBAR_PANELS = (
-    #'debug_toolbar_user_panel.panels.UserPanel',
+    'debug_toolbar_user_panel.panels.UserPanel',
     #'memcache_toolbar.panels.memcache.MemcachePanel',
     'debug_toolbar.panels.version.VersionDebugPanel',
     'debug_toolbar.panels.timer.TimerDebugPanel',
@@ -200,15 +201,6 @@ AUTH_PROFILE_MODULE = 'base.UserProfile'
 
 FILE_UPLOAD_PERMISSIONS = 0664
 
-# Because Jinja2 is the default template loader, add any non-Jinja templated
-# apps here:
-JINGO_EXCLUDE_APPS = [
-    'admin',
-    'debug_toolbar',
-    'debug_toolbar_user_panel',
-    'memcache_toolbar',
-]
-
 # The WSGI Application to use for runserver
 WSGI_APPLICATION = 'visiondataset.wsgi.application'
 
@@ -222,7 +214,7 @@ AUTHENTICATION_BACKENDS = (
 # Make this unique, and don't share it with anybody.  It cannot be blank.
 SECRET_KEY = '9sbj=it#)$exj3w5!hqtq*^$^se-(1=ywov-b*v_r3!eoufa=h'
 
-LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+LOGIN_REDIRECT_URL = ''
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
 ANONYMOUS_USER_ID = -1

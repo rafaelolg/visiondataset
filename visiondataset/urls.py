@@ -9,6 +9,7 @@ def bad(request):
     1 / 0
 
 urlpatterns = patterns('',
+    (r'', include('debug_toolbar_user_panel.urls')),
     (r'', include('visiondataset.base.urls')),
     (r'^dataset/', include('visiondataset.datasets.urls')),
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),

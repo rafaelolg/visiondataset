@@ -1,12 +1,15 @@
 # Create your views here.
-from django.http import Http404, HttpResponseRedirect
 from django.conf import settings
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.decorators import login_required
+from django.http import Http404, HttpResponseRedirect
+from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from models import Dataset, Datum, DataType
+from view_mixins import LoginRequiredMixin
 
-class DatasetListView(ListView):
+class DatasetListView(LoginRequiredMixin, ListView):
     context_object_name = 'dataset_list'
     paginate_by = 6
     allow_empty = True
@@ -18,3 +21,4 @@ class DatasetListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(DatasetListView, self).get_context_data(**kwargs)
         return context
+
