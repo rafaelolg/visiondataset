@@ -44,29 +44,27 @@
             <span class="icon-bar"></span>
           </a>
           <a class="brand" href="#">Vision Dataset</a>
-          {% if is_logged_in %}T
-          <div class="btn-group pull-right">
-              <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                  <i class="icon-user"></i> Username <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                  <li><a href="#">Profile</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Sign Out</a></li>
-              </ul>
-          </div>
+          {% if user.is_authenticated %}
+              <div class="btn-group pull-right">
+                  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                      <i class="icon-user"></i>{{user.username}}<span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                      <li><a href="{% url userena_profile_detail user.username %}">Profile</a></li>
+                      <li class="divider"></li>
+                      <li><a href="{% url userena_signout%}">Sign Out</a></li>
+                  </ul>
+              </div>
           {%else%}
           <div class="btn-group pull-right">
-          <a href="{%url userena_signin%}" class="btn btn-small"><i class="icon-cog"></i>Login</a>
-          <a href="{%url userena_signup%}" class="btn btn-small"><i
-                  class="icon-cog"></i>Signup</a>
+              <a href="{%url userena_signin%}?next=/dataset/" class="btn btn-small"><i class="icon-cog"></i>Login</a>
+              <a href="{%url userena_signup%}?next=/dataset/" class="btn btn-small"><i class="icon-cog"></i>Signup</a>
           </div>
           {%endif%}
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
+                <li class="active"><a href="{%url dataset_list%}">Datasets</a></li>
               <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>

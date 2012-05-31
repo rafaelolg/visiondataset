@@ -217,4 +217,6 @@ SECRET_KEY = '9sbj=it#)$exj3w5!hqtq*^$^se-(1=ywov-b*v_r3!eoufa=h'
 LOGIN_REDIRECT_URL = ''
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
+LOGIN_REDIRECT_URL='/dataset'
+USERENA_SIGNIN_REDIRECT_URI='/dataset/'
 ANONYMOUS_USER_ID = -1
