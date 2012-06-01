@@ -1,0 +1,34 @@
+{%extends "base_with_sidebar.html"%}
+{% load i18n %}
+{% block title %}{{dataset.name}}{% endblock title%}
+
+{%block sidebar%}
+<ul class="nav nav-list">
+    <li class=""><a href="{% url datasets_dataset_list %}">{%trans "List datasets"%}</a></li>
+    <li class=""><a href="{% url datasets_dataset_create %}">{%trans "Create new dataset"%}</a></li>
+</ul>
+{%endblock%}
+
+
+{% block content %}
+<div class='dataset-description'>
+    <h2>{{dataset.name}}</h2>
+    <span class="label label-info">{{ dataset.owner.username}}</span>
+    {{dataset.description|escape|linebreaks}}
+</div>
+{% include "pagination.html" %}
+<ul class='datum-list thumbnails'>
+    {% for d in datum_list %}
+    <li class='span2'>
+    <div class='thumbnail'>
+        <strong class="datum-name">{{ d.name }}</strong>
+            {{d.description|truncatechars:60|escape|linebreaks}}
+        <p>
+        <span class="label label-info">{{ d.owner.username}}</span>
+        </p>
+        <p><a class="btn" href="{{ dataset.get_absolute_url }}">View</a></p>
+    </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

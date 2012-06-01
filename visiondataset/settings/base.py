@@ -6,23 +6,6 @@ import os
 
 # Your project root
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__) + "../../../")
-
-# Bundles is a dictionary of two dictionaries, css and js, which list css files
-# and js files that can be bundled together by the minify app.
-MINIFY_BUNDLES = {
-        'css': {
-            'base_css': (
-                'css/style.css',
-                ),
-            },
-        'js': {
-            'libs_js': (
-                'js/libs/jquery-1.6.2.min.js',
-                'js/libs/modernizr-2.0.6.min.js',
-                ),
-            }
-        }
-
 SUPPORTED_NONLOCALES = ['media', 'admin', 'static']
 
 # Language code for this installation. All choices can be found here:

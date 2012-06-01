@@ -14,7 +14,7 @@ class Dataset(models.Model):
 
     class Meta:
         permissions = (
-            ('colaborate_dataset', _('View Edit Information and Colaborate with Dataset')),
+            ('datasets.dataset_colaborate', _('View Edit Information and Colaborate with Dataset')),
         )
         get_latest_by = 'created'
         ordering = ('-created',)
