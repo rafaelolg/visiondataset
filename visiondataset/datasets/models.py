@@ -24,7 +24,7 @@ class Dataset(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('dataset_view',(),{'slug':str(self.slug)})
+        return ('datasets_dataset_detail',(),{'slug':str(self.slug)})
 
 
 class DataType(models.Model):

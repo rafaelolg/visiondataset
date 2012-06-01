@@ -1,6 +1,13 @@
 {% extends "base_with_sidebar.html" %}
 {% load i18n %}
 
+{%block sidebar%}
+<ul class="nav nav-list">
+    <li class="active"><a href="{% url datasets_dataset_list %}">{%trans "List datasets"%}</a></li>
+    <li class=><a href="{% url datasets_dataset_create %}">{%trans "Create new dataset"%}</a></li>
+</ul>
+{%endblock%}
+
 {% block title %}Datasets{% endblock title%}
 {% block content %}
 <h2>{%trans "Datasets"%}</h2>
@@ -10,9 +17,7 @@
     <li class='span5'>
     <div class='thumbnail'>
         <h3 class="dataset-name">{{ dataset.name }}</h3>
-        <p class="caption">
-            {{dataset.description}}
-        </p>
+            {{dataset.description|truncatechars:140|escape|linebreaks}}
         <p>
         <span class="label label-info">{{ dataset.owner.username}}</span>
         </p>
