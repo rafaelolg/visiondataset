@@ -14,8 +14,7 @@ class Dataset(models.Model):
 
     class Meta:
         permissions = (
-            ('view_dataset', _('View Dataset')),
-            ('add_datum_dataset', _('Add elements')),
+            ('colaborate_dataset', _('View Edit Information and Colaborate with Dataset')),
         )
         get_latest_by = 'created'
         ordering = ('-created',)
@@ -53,9 +52,6 @@ class Datum(models.Model):
     dtype = models.ForeignKey(DataType, related_name='+')
 
     class Meta:
-        permissions = (
-            ('view_datum', _('View Element Datum')),
-        )
         get_latest_by = 'created'
         ordering = ('dataset','-created')
 

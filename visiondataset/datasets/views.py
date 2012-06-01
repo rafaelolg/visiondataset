@@ -5,6 +5,7 @@ from django.http import Http404, HttpResponseRedirect, HttpResponseForbidden
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from guardian.shortcuts import get_objects_for_user
 
 from models import Dataset, Datum, DataType
 from view_mixins import LoginRequiredMixin
@@ -15,7 +16,7 @@ class DatasetListView(LoginRequiredMixin, ListView):
     allow_empty = True
 
     def get_queryset(self):
-        datasets = Dataset.objects.all()
+        datasets = get_objects_for_user(self.request.user, 'colaborate_dataset', klass=Dataset)
         return datasets
 
     def get_context_data(self, **kwargs):
@@ -27,5 +28,6 @@ def dataset_view(request, slug):
     """ Default view for the root """
     dataset = Dataset.objects.get(slug=slug)
     if request.user.has_perm('view_dataset'):
-        print 'asdasd'
+        pass
+        #TODO: carregar a lista das imagens
     return HttpResponseForbidden()

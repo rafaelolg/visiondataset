@@ -5,9 +5,10 @@ from guardian.admin import GuardedModelAdmin
 from models import Dataset, Datum, DataType
 
 class DatasetAdmin(GuardedModelAdmin):
-    pass
+    list_display = ('name', 'slug', 'created')
 
 class DatumAdmin(GuardedModelAdmin):
+    list_display = ('name', 'slug', 'created')
     pass
 
 class DataTypeAdmin(GuardedModelAdmin):
