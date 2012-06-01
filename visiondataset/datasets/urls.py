@@ -6,4 +6,5 @@ from views import DatasetListView
 
 urlpatterns = patterns('visiondataset.datasets.views',
         url(r'^$', DatasetListView.as_view(), name='dataset_list'),
+        url(r'^(?P<slug>[^/]+)/?$', 'dataset_view', name='dataset_view'),
 )

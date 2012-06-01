@@ -25,7 +25,7 @@ class Dataset(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('datasets.views.datatype',(),{'slug':str(self.slug)})
+        return ('dataset_view',(),{'slug':str(self.slug)})
 
 
 class DataType(models.Model):
@@ -38,7 +38,7 @@ class DataType(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('datasets.views.datatype',(),{'slug':str(self.slug)})
+        return ('datatype_view',(),{'slug':str(self.slug)})
 
 
 class Datum(models.Model):
@@ -64,5 +64,5 @@ class Datum(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('datasets.views.datatype',(),{'slug':str(self.slug)})
+        return ('datum_view',(),{'slug':str(self.slug)})
 
