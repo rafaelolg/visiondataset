@@ -62,3 +62,6 @@ class DatasetDetail(PermissionRequiredMixin, LoginRequiredMixin, ListView):
         context['dataset'] = self.get_object()
         return context
 
+class DatumDetail(LoginRequiredMixin, DetailView):
+    context_object_name = "datum"
+    model=Datum

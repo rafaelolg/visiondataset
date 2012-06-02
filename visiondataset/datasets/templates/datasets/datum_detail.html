@@ -1,0 +1,25 @@
+{%extends "base_with_sidebar.html"%}
+{% load i18n %}
+{% block title %}{{datum.name}}{% endblock title%}
+
+{%block sidebar%}
+<ul class="nav nav-list">
+    <li class=""><a href="{# url datasets_dataset_create #}">{%trans "Delete datum"%}</a></li>
+    <li class=""><a href="{%url datasets_dataset_detail  slug=datum.dataset.slug %}">{%trans "Back"%}</a></li>
+</ul>
+{%endblock%}
+
+
+{% block content %}
+<div class='datum-description'>
+    <h2>{{datum.name}}</h2>
+    <span class="label label-info">{{ datum.dataset.owner.username}}</span>
+    {{datum.description|escape|linebreaks}}
+    <p>
+    {%trans "Type"%}:{{datum.dtype.name}}
+    </p>
+    <p>
+    {%trans "Associated File"%}:<a href="{{datum.package.url}}">{{datum.package}}</a>
+    </p>
+</div>
+{% endblock %}
