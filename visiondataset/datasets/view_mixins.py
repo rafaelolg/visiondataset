@@ -5,7 +5,7 @@ from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.utils.http import urlquote
 from django.utils.decorators import method_decorator
-
+from django.core.exceptions import ImproperlyConfigured
 
 class LoginRequiredMixin(object):
     """ 
@@ -91,8 +91,8 @@ class PermissionRequiredMixin(object):
         original_return_value = super(PermissionRequiredMixin, self).dispatch(request, *args, **kwargs)
         
         # verify class settings
-        if self.permission_required == None or len(self.permission_required.split('.')) != 2:
-            raise ImproperlyConfigured("'PermissionRequiredMixin' requires 'permission_required' attribute to be set to '<app_label>.<permission codename>' but is set to '%s' instead" % self.permission_required)
+        if self.permission_required == None:
+            raise ImproperlyConfigured("'PermissionRequiredMixin' requires 'permission_required' attribute to be set to '<permission codename>' but is set to '%s' instead" % self.permission_required)
         
         # verify permission on object instance if needed
         has_permission = False
