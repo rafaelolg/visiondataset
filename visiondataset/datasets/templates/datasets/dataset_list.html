@@ -3,6 +3,7 @@
 
 {%block sidebar%}
 <ul class="nav nav-list">
+    <li class="nav-header">{%trans "Dataset actions" %}</li>
     <li class="active"><a href="{% url datasets_dataset_list %}">{%trans "List datasets"%}</a></li>
     <li class=><a href="{% url datasets_dataset_create %}">{%trans "Create new dataset"%}</a></li>
 </ul>
@@ -16,12 +17,15 @@
     {% for dataset in dataset_list %}
     <li class='span5'>
     <div class='thumbnail'>
-        <h3 class="dataset-name">{{ dataset.name }}</h3>
+        <h5 class="dataset-name">{{ dataset.name }}</h5>
+        <p><span class="label label-info">{{ dataset.owner.username}}</span> </p>
             {{dataset.description|truncatechars:140|escape|linebreaks}}
         <p>
-        <span class="label label-info">{{ dataset.owner.username}}</span>
+            <a class="btn btn-primary" href="{{ dataset.get_absolute_url }}">View</a>
+            {%if dataset.owner == user or user.is_superuser %}
+            <a class="btn " href="{{ dataset.get_absolute_url }}">Edit</a>
+            {%endif%}
         </p>
-        <p><a class="btn" href="{{ dataset.get_absolute_url }}">View</a></p>
     </div>
     </li>
     {% endfor %}
