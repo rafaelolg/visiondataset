@@ -36,6 +36,7 @@ def prepare_server():
 	# make directory skeleton
 	run("mkdir -p ~/sites/%s/releases" % env.project_name)
 	run("mkdir -p ~/sites/%s/uploads" % env.project_name)
+	run("mkdir -p ~/sites/%s/protected" % env.project_name)
 	run("mkdir -p ~/logs/nginx")
 	run("mkdir -p ~/logs/uwsgi")
 	run("mkdir -p ~/bin")

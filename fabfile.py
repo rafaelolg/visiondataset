@@ -80,9 +80,9 @@ def run_dev_server():
 		run('workon %s && ./manage.py runserver_plus 0.0.0.0:8000' % env.project_name)
 
 
-def sync_db(from_env, to_env):
-	"""Sync DB + uploads folder from one env to another env"""
-	postgres.sync_psql_db(from_env, to_env)
+#def sync_db(from_env, to_env):
+#	"""Sync DB + uploads folder from one env to another env"""
+#	postgres.sync_psql_db(from_env, to_env)
 
 
 def migrate_app(app_name, initial=""):
