@@ -4,8 +4,8 @@
 
 {%block sidebar%}
 <ul class="nav nav-list">
-    <li class=""><a href="{% url datasets_dataset_list %}">{%trans "List datasets"%}</a></li>
-    <li class=""><a href="{% url datasets_dataset_create %}">{%trans "Create new dataset"%}</a></li>
+    <li class="nav-header">{%trans "Datum actions" %}</li>
+    <li class=""><a href="{# url datasets_dataset_create #}">{%trans "Create new datum"%}</a></li>
 </ul>
 {%endblock%}
 
@@ -26,7 +26,7 @@
         <p>
         <span class="label label-info">{{ d.owner.username}}</span>
         </p>
-        <p><a class="btn" href="{{ dataset.get_absolute_url }}">View</a></p>
+        <p><a class="btn" href="{{ d.get_absolute_url }}">View</a></p>
     </div>
     </li>
     {% endfor %}
