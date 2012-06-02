@@ -15,7 +15,7 @@ def vagrant_env():
 			yield
 
 
-MEDIA_ROOT = 'assets/'
+MEDIA_ROOT = 'upload/'
 
 def fetch_file(item):
 	url, fname = item
