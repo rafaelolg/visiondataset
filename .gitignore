@@ -20,5 +20,5 @@ test_db/
 .vagrant
 *.sublime-project
 *.sublime-workspace
-media/*
+upload/*
 static/*

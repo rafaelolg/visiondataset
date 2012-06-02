@@ -68,7 +68,7 @@ SESSION_COOKIE_SECURE = False
 ## Tests
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.example.com/media/"
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'upload')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
