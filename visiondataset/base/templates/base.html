@@ -9,26 +9,18 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
-    <title>{% block title %}{{"Vision Dataset"}}{% endblock %}</title>
-
+    <title>Vision Dataset - {% block title %}{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}{% endblock %}">
     <meta name="author" content="{% block meta_author %}{% endblock %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--
     <link href='http://fonts.googleapis.com/css?family=Dosis:600|Droid+Sans' rel='stylesheet' type='text/css'>
+    -->
     <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
-
 
     {% block extra_css %}{% endblock %}
     <script src="{{ STATIC_URL }}js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
-
-
-    <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="{{STATIC_URL}}favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{STATIC_URL}}apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{STATIC_URL}}apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72"   href="{{STATIC_URL}}apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed"                 href="{{STATIC_URL}}apple-touch-icon-57-precomposed.png">
 </head>
 <body class="{% block body_class %}{% endblock %}">
     {% block body %}
@@ -58,8 +50,8 @@
               </div>
           {%else%}
           <div class="btn-group pull-right">
-              <a href="{%url userena_signin%}?next=/dataset/" class="btn btn-small"><i class="icon-cog"></i>Login</a>
-              <a href="{%url userena_signup%}?next=/dataset/" class="btn btn-small"><i class="icon-cog"></i>Signup</a>
+              <a href="{%url userena_signin%}?next=/dataset/" class="btn btn-small">Login</a>
+              <a href="{%url userena_signup%}?next=/dataset/" class="btn btn-small">Signup</a>
           </div>
           {%endif%}
           <div class="nav-collapse">
