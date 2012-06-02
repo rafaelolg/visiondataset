@@ -1,8 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
-from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField, AutoSlugField
-
+from django_extensions.db.fields import CreationDateTimeField, \
+        ModificationDateTimeField, AutoSlugField
 
 class Dataset(models.Model):
     """Set of datums"""
@@ -14,7 +14,8 @@ class Dataset(models.Model):
 
     class Meta:
         permissions = (
-            ('datasets.dataset_colaborate', _('View Edit Information and Colaborate with Dataset')),
+            ('dataset_colaborate',
+                _('View Edit Information and Colaborate with Dataset')),
         )
         get_latest_by = 'created'
         ordering = ('-created',)
