@@ -41,18 +41,24 @@ class DatasetCreate(LoginRequiredMixin,  CreateView):
         assign(DATASET_COLABORATE_PERMISSION,self.request.user, self.object)
         return HttpResponseRedirect(self.get_success_url())
 
-class DatasetDetail(ListView):
+
+class DatasetDetail(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     context_object_name = "datum_list"
     paginate_by = 12
     allow_empty = True
+    permission_required = DATASET_COLABORATE_PERMISSION
+    raise_exception = True
+
+    def get_object(self):
+        if not hasattr(self,'dataset'):
+            self.dataset = get_object_or_404(Dataset, slug=self.kwargs['slug'])
+        return self.dataset
 
     def get_queryset(self):
-        self.dataset = get_object_or_404(Dataset, slug=self.kwargs['slug'])
-        return Datum.objects.filter(dataset=self.dataset)
+        return Datum.objects.filter(dataset=self.get_object())
 
     def get_context_data(self, **kwargs):
         context = super(DatasetDetail, self).get_context_data(**kwargs)
-        context['dataset'] = self.dataset
-        import ipdb;ipdb.set_trace()
+        context['dataset'] = self.get_object()
         return context
 
