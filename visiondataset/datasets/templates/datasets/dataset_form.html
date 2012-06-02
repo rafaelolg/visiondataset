@@ -1,0 +1,18 @@
+{% extends "base_with_sidebar.html" %}
+{% load i18n %}
+
+
+{%block sidebar%}
+<ul class="nav nav-list">
+    <li class="nav-header">{%trans "Dataset actions" %}</li>
+    <li class=""><a href="{% url datasets_dataset_list %}">{%trans "List datasets"%}</a></li>
+    <li class="active"><a href="{% url datasets_dataset_create %}">{%trans "Create new dataset"%}</a></li>
+</ul>
+{%endblock%}
+
+{% block title %}{%trans "Create dataset"%}{% endblock title%}
+
+{% block content %}
+<h1>{%trans "Create dataset"%}</h1>
+{% include 'datasets/dataset_form_snippet.html' %}
+{% endblock %}

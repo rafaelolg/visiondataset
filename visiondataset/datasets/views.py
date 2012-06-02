@@ -4,12 +4,16 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponseRedirect, HttpResponseForbidden
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, \
+        UpdateView, DeleteView
 from django.shortcuts import get_object_or_404
 from guardian.shortcuts import get_objects_for_user, get_users_with_perms
+from guardian.shortcuts import assign
+from django.core.exceptions import PermissionDenied
 
 from models import Dataset, Datum, DataType
 from view_mixins import LoginRequiredMixin, PermissionRequiredMixin
+from forms import DatasetModelForm
 
 DATASET_COLABORATE_PERMISSION='dataset_colaborate'
 
@@ -26,9 +30,16 @@ class DatasetList(LoginRequiredMixin, ListView):
         context = super(DatasetList, self).get_context_data(**kwargs)
         return context
 
-class DatasetCreate(CreateView):
-    pass
+class DatasetCreate(LoginRequiredMixin,  CreateView):
+    model  = Dataset
+    form_class = DatasetModelForm
 
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user
+        self.object.save()
+        assign(DATASET_COLABORATE_PERMISSION,self.request.user, self.object)
+        return HttpResponseRedirect(self.get_success_url())
 
 class DatasetDetail(ListView):
     context_object_name = "datum_list"
