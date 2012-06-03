@@ -35,7 +35,7 @@ CACHES = {
             }
         }
 
-DEBUG = %(debug)s
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 THUMBNAIL_DEBUG = DEBUG
 DEV = %(debug)s
@@ -49,8 +49,8 @@ SENDFILE_BACKEND = 'sendfile.backends.nginx'
 
 
 
-LOG_LEVEL = logging.INFO
-HAS_SYSLOG = True
+LOG_LEVEL = logging.DEBUG
+HAS_SYSLOG = False
 SYSLOG_TAG = "http_app_visiondataset"  # Make this unique to your project.
 # Remove this configuration variable to use your custom logging configuration
 LOGGING_CONFIG = None
