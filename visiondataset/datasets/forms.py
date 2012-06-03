@@ -8,7 +8,7 @@ class DatasetModelForm(ModelForm):
     """Form for Dataset"""
     class Meta:
         model = Dataset
-        exclude = ('owner', 'created', 'slug')
+        exclude = ('owner', 'created')
 
 # forms.py
 

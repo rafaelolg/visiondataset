@@ -54,7 +54,7 @@ class DatasetDetail(PermissionRequiredMixin, LoginRequiredMixin, ListView):
 
     def get_object(self):
         if not hasattr(self,'dataset'):
-            self.dataset = get_object_or_404(Dataset, slug=self.kwargs['slug'])
+            self.dataset = get_object_or_404(Dataset, pk=self.kwargs['pk'])
         return self.dataset
 
     def get_queryset(self):
@@ -71,8 +71,8 @@ class DatumDetail(LoginRequiredMixin, DetailView):
 
 
 @login_required
-def datum_package_download(request, slug):
-    datum = get_object_or_404(Datum, slug=slug)
+def datum_file(request, pk):
+    datum = get_object_or_404(Datum, pk=pk)
     if datum.is_user_allowed(request.user):
         return sendfile(request, datum.package.path)
     else:

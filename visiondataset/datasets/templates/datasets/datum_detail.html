@@ -5,7 +5,7 @@
 {%block sidebar%}
 <ul class="nav nav-list">
     <li class=""><a href="{# url datasets_dataset_create #}">{%trans "Delete datum"%}</a></li>
-    <li class=""><a href="{%url datasets_dataset_detail  slug=datum.dataset.slug %}">{%trans "Back"%}</a></li>
+    <li class=""><a href="{%url datasets_dataset_detail  pk=datum.dataset.pk %}">{%trans "Back"%}</a></li>
 </ul>
 {%endblock%}
 
@@ -16,10 +16,10 @@
     <span class="label label-info">{{ datum.dataset.owner.username}}</span>
     {{datum.description|escape|linebreaks}}
     <p>
-    {%trans "Type"%}:{{datum.dtype.name}}
+    {%trans "File"%}:
+    <a href="{%url datasets_datum_file pk=datum.pk%}">{{datum.dtype.name}}</a>
     </p>
     <p>
-    {%trans "Associated File"%}:<a href="{{datum.package.url}}">{{datum.package}}</a>
     </p>
 </div>
 {% endblock %}

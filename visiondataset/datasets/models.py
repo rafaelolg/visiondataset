@@ -13,7 +13,6 @@ from django.core.files.storage import FileSystemStorage
 class Dataset(models.Model):
     """Set of datums"""
     name = models.CharField(max_length=256)
-    slug = AutoSlugField(_('slug'), populate_from='name')
     owner = models.ForeignKey(User, related_name='+')
     created = CreationDateTimeField(_('created'))
     description = models.TextField(_('description'), blank=True)
@@ -31,7 +30,7 @@ class Dataset(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('datasets_dataset_detail',(),{'slug':str(self.slug)})
+        return ('datasets_dataset_detail',(),{'pk':self.pk})
 
 
 class DataType(models.Model):
@@ -61,9 +60,8 @@ class Datum(models.Model):
     owner = models.ForeignKey(User, related_name='+')
     created = CreationDateTimeField(_('created'))
     name = models.CharField(max_length=256)
-    slug = AutoSlugField(_('slug'), populate_from=['dataset','name'])
     description = models.TextField(_('description'), blank=True)
-    package = models.FileField(upload_to=get_package_file_path, max_length=100,
+    package = models.FileField(_("file"), upload_to=get_package_file_path, max_length=100,
             storage=protected_storage)
     dtype = models.ForeignKey(DataType, related_name='+')
 
@@ -82,5 +80,5 @@ class Datum(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('datasets_datum_detail',(),{'slug':str(self.slug)})
+        return ('datasets_datum_detail',(),{'pk':self.pk})
 
