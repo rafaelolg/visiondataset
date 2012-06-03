@@ -14,6 +14,9 @@ from django.core.exceptions import PermissionDenied
 from models import Dataset, Datum, DataType
 from view_mixins import LoginRequiredMixin, PermissionRequiredMixin
 from forms import DatasetModelForm
+from sendfile import sendfile
+
+
 
 DATASET_COLABORATE_PERMISSION='dataset_colaborate'
 
@@ -65,3 +68,12 @@ class DatasetDetail(PermissionRequiredMixin, LoginRequiredMixin, ListView):
 class DatumDetail(LoginRequiredMixin, DetailView):
     context_object_name = "datum"
     model=Datum
+
+
+@login_required
+def datum_package_download(request, slug):
+    datum = get_object_or_404(Datum, slug=slug)
+    if datum.is_user_allowed(request.user):
+        return sendfile(request, datum.package.path)
+    else:
+        return HttpResponseForbidden(_("You can't view this"));

@@ -1,8 +1,14 @@
+import uuid
+import os
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django_extensions.db.fields import CreationDateTimeField, \
         ModificationDateTimeField, AutoSlugField
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+
 
 class Dataset(models.Model):
     """Set of datums"""
@@ -41,6 +47,14 @@ class DataType(models.Model):
         return ('datatype_view',(),{'slug':str(self.slug)})
 
 
+
+
+protected_storage = FileSystemStorage(location=settings.SENDFILE_ROOT)
+def get_package_file_path(instance, filename, prefix='datum'):
+    ext = filename.split('.')[-1]
+    filename = "%s.%s" % (uuid.uuid4(), ext)
+    return os.path.join(prefix,filename)
+
 class Datum(models.Model):
     """Data element"""
     dataset = models.ForeignKey(Dataset, related_name='+')
@@ -49,8 +63,15 @@ class Datum(models.Model):
     name = models.CharField(max_length=256)
     slug = AutoSlugField(_('slug'), populate_from=['dataset','name'])
     description = models.TextField(_('description'), blank=True)
-    package = models.FileField(upload_to='datum', max_length=100)
+    package = models.FileField(upload_to=get_package_file_path, max_length=100,
+            storage=protected_storage)
     dtype = models.ForeignKey(DataType, related_name='+')
+
+    def is_user_allowed(self, user):
+        allowed = self.owner == user
+        if not allowed:
+            allowed = user.has_perm('dataset_colaborate', self)
+        return allowed
 
     class Meta:
         get_latest_by = 'created'

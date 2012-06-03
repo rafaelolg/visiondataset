@@ -44,7 +44,10 @@ SECRET_KEY = '9sbj=it#)$exj3w5!hqtq*^$^se-(1=ywov-b*v_r3!eoufa=h'
 
 #Uploadedfiles
 MEDIA_ROOT='%(project_root)s/uploads/'
-MEDIA_ROOT_PROTECTED='%(project_root)s/protected/'
+SENDFILE_ROOT='%(project_root)s/protected/'
+SENDFILE_BACKEND = 'sendfile.backends.nginx'
+
+
 
 LOG_LEVEL = logging.INFO
 HAS_SYSLOG = True
