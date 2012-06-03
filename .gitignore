@@ -21,4 +21,5 @@ test_db/
 *.sublime-project
 *.sublime-workspace
 upload/*
+protected/*
 static/*
