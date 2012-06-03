@@ -69,7 +69,7 @@ SESSION_COOKIE_SECURE = False
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.example.com/media/"
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'upload')
-SENDFILE_ROOT = os.path.join(PROJECT_ROOT, 'upload')
+SENDFILE_ROOT = os.path.join(PROJECT_ROOT, 'protected')
 SENDFILE_URL = '/protected'
 SENDFILE_BACKEND = 'sendfile.backends.development'
 
