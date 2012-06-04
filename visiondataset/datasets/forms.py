@@ -11,9 +11,10 @@ class DatasetModelForm(ModelForm):
         exclude = ('owner', 'created')
 
 class DatumModelForm(ModelForm):
+    initial={'dtype': 1}
     class Meta:
         model = Datum
-        exclude = ('owner', 'dataset', 'created')
+        exclude = ('name', 'owner', 'dataset', 'created')
 
 
 # forms.py

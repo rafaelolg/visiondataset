@@ -4,8 +4,7 @@ import os
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
-from django_extensions.db.fields import CreationDateTimeField, \
-        ModificationDateTimeField, AutoSlugField
+from django_extensions.db.fields import CreationDateTimeField, AutoSlugField
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.core.urlresolvers import reverse
@@ -51,7 +50,6 @@ class DataType(models.Model):
 
 
 
-
 protected_storage = FileSystemStorage(location=settings.SENDFILE_ROOT)
 def get_package_file_path(instance, filename, prefix='datum'):
     ext = filename.split('.')[-1]
@@ -60,14 +58,12 @@ def get_package_file_path(instance, filename, prefix='datum'):
 
 class Datum(models.Model):
     """Data element"""
-    dataset = models.ForeignKey(Dataset, related_name='+')
+    dataset = models.ForeignKey(Dataset)
     owner = models.ForeignKey(User, related_name='+')
     created = CreationDateTimeField(_('created'))
     name = models.CharField(max_length=256)
-    description = models.TextField(_('description'), blank=True)
-    package = models.FileField(_("file"), upload_to=get_package_file_path, max_length=100,
+    package = models.FileField(_("file"), upload_to=get_package_file_path, max_length=100, 
             storage=protected_storage)
-    dtype = models.ForeignKey(DataType,verbose_name= _("Type"), related_name='+')
     dtype = models.ForeignKey(DataType,verbose_name= _("Type"), related_name='+',
             blank=False, default=1)
 
