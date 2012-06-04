@@ -17,7 +17,8 @@
     {{datum.description|escape|linebreaks}}
     <p>
     {%trans "File"%}:
-    <a href="{%url datasets_datum_file pk=datum.pk%}">{{datum.dtype.name}}</a>
+    <a href="{%url datasets_datum_file dataset_id=datum.dataset_id pk=datum.pk%}">
+        {{datum.dtype.name}}</a>
     </p>
     <p>
     </p>
