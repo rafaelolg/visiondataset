@@ -1,4 +1,3 @@
-# Create your views here.
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponseRedirect, HttpResponseForbidden
@@ -7,14 +6,15 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView, DetailView, CreateView, \
         UpdateView, DeleteView
 from django.shortcuts import get_object_or_404
-from guardian.shortcuts import get_objects_for_user, get_users_with_perms
-from guardian.shortcuts import assign
 from django.core.exceptions import PermissionDenied
+from django.template.defaultfilters import slugify
+
+from guardian.shortcuts import get_objects_for_user, get_users_with_perms, assign
+from sendfile import sendfile
 
 from models import Dataset, Datum, DataType
 from view_mixins import LoginRequiredMixin, PermissionRequiredMixin
-from forms import DatasetModelForm
-from sendfile import sendfile
+from forms import DatasetModelForm, DatumModelForm
 
 
 
@@ -65,15 +65,41 @@ class DatasetDetail(PermissionRequiredMixin, LoginRequiredMixin, ListView):
         context['dataset'] = self.get_object()
         return context
 
+
 class DatumDetail(LoginRequiredMixin, DetailView):
     context_object_name = "datum"
+    model = Datum
+
+#TODO:colocar permissao nisso
+class DatumCreate(LoginRequiredMixin, CreateView):
     model=Datum
+    form_class = DatumModelForm
+
+    def dispatch(self, request, *args, **kwargs):
+        return super(DatumCreate, self).dispatch(request, *args, **kwargs)
+
+
+    def get_context_data(self, **kwargs):
+        context = super(DatumCreate, self).get_context_data(**kwargs)
+        context['dataset_id'] = self.kwargs['dataset_id']
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.dataset_id = self.kwargs['dataset_id']
+        self.object.owner = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+
 
 
 @login_required
-def datum_file(request, pk):
+def datum_file(request, pk, dataset_id=None):
     datum = get_object_or_404(Datum, pk=pk)
+    filename = slugify(datum.name) + '.' + datum.package.name.split('.')[-1]
     if datum.is_user_allowed(request.user):
-        return sendfile(request, datum.package.path)
+        return sendfile(request, datum.package.path, attachment=True,
+                attachment_filename=filename)
     else:
         return HttpResponseForbidden(_("You can't view this"));

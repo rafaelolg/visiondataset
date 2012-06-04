@@ -1,0 +1,16 @@
+{% extends "base_with_sidebar.html" %}
+{% load i18n %}
+
+
+{%block sidebar%}
+<ul class="nav nav-list">
+    <li class="nav-header">{%trans "Actions" %}</li>
+</ul>
+{%endblock%}
+
+{% block title %}{%trans "Add Datum "%}{% endblock title%}
+
+{% block content %}
+<h1>{%trans "Add dataset"%}</h1>
+{% include 'datasets/datum_form_snippet.html' %}
+{% endblock %}
