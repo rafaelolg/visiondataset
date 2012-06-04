@@ -7,7 +7,6 @@ from django.views.generic import ListView, DetailView, CreateView, \
         UpdateView, DeleteView
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
-from django.template.defaultfilters import slugify
 
 from guardian.shortcuts import get_objects_for_user, get_users_with_perms, assign
 from sendfile import sendfile
@@ -75,10 +74,6 @@ class DatumCreate(LoginRequiredMixin, CreateView):
     model=Datum
     form_class = DatumModelForm
 
-    def dispatch(self, request, *args, **kwargs):
-        return super(DatumCreate, self).dispatch(request, *args, **kwargs)
-
-
     def get_context_data(self, **kwargs):
         context = super(DatumCreate, self).get_context_data(**kwargs)
         context['dataset_id'] = self.kwargs['dataset_id']
@@ -88,16 +83,16 @@ class DatumCreate(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.dataset_id = self.kwargs['dataset_id']
         self.object.owner = self.request.user
+        self.object.name = self.object.package.name.split('/')[-1].split('.')[0]
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
-
 
 
 
 @login_required
 def datum_file(request, pk, dataset_id=None):
     datum = get_object_or_404(Datum, pk=pk)
-    filename = slugify(datum.name) + '.' + datum.package.name.split('.')[-1]
+    filename = datum.file_name()
     if datum.is_user_allowed(request.user):
         return sendfile(request, datum.package.path, attachment=True,
                 attachment_filename=filename)

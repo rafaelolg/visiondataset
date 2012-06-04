@@ -8,7 +8,11 @@ from django_extensions.db.fields import CreationDateTimeField, \
         ModificationDateTimeField, AutoSlugField
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from django.core.urlresolvers import reverse
+from django.template.defaultfilters import slugify
 
+
+DEFAULT_DTYPE_TEMPLATE='''<a href="%(file_url)s">%(file_name)s</a>'''
 
 class Dataset(models.Model):
     """Set of datums"""
@@ -37,7 +41,7 @@ class DataType(models.Model):
     """docstring"""
     name = models.CharField(max_length=50)
     slug = AutoSlugField(_('slug'), populate_from='name')
-
+    template_to_view = models.TextField(default=DEFAULT_DTYPE_TEMPLATE)
     def __unicode__(self):
         return self.name
 
@@ -64,6 +68,8 @@ class Datum(models.Model):
     package = models.FileField(_("file"), upload_to=get_package_file_path, max_length=100,
             storage=protected_storage)
     dtype = models.ForeignKey(DataType,verbose_name= _("Type"), related_name='+')
+    dtype = models.ForeignKey(DataType,verbose_name= _("Type"), related_name='+',
+            blank=False, default=1)
 
     class Meta:
         get_latest_by = 'created'
@@ -81,4 +87,14 @@ class Datum(models.Model):
         if not allowed:
             allowed = user.has_perm('dataset_colaborate', self)
         return allowed
+    
+    def file_url(self):
+        return reverse('datasets_datum_file', kwargs={'dataset_id':self.dataset_id, 'pk':self.pk})
+    
+    def file_name(self):
+        return slugify(self.name) + '.' + self.package.name.split('.')[-1]
 
+    def file_render(self):
+        text = self.dtype.template_to_view % {'file_url':self.file_url(), 'file_name':
+                    self.file_name()}
+        return text
