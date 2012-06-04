@@ -5,7 +5,7 @@
 {%block sidebar%}
 <ul class="nav nav-list">
     <li class=""><a href="{% url datasets_dataset_list %}">{%trans "List datasets"%}</a></li>
-    <li class=""><a href="{% url datasets_dataset_create %}">{%trans "Create new dataset"%}</a></li>
+    <li class=""><a href="{% url datasets_datum_create dataset.id %}">{%trans "Create new datum"%}</a></li>
 </ul>
 {%endblock%}
 
