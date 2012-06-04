@@ -1,5 +1,5 @@
 {%extends "base_with_sidebar.html"%}
-{% load i18n %}
+{% load i18n comments %}
 {% block title %}{{dataset.name}}{% endblock title%}
 
 {%block sidebar%}
@@ -15,7 +15,6 @@
 <div class='dataset-description'>
     <h2>{{dataset.name}}</h2>
     <span class="label label-info">{{ dataset.owner.username}}</span>
-    {{dataset.description|escape|linebreaks}}
 </div>
 {% include "pagination.html" %}
 <ul class='datum-list thumbnails'>
@@ -23,13 +22,14 @@
     <li class='span2'>
     <div class='thumbnail'>
         <strong class="datum-name">{{ d.name }}</strong>
-            {{d.description|truncatechars:60|escape|linebreaks}}
-        <p>
-        <span class="label label-info">{{ d.owner.username}}</span>
-        </p>
         <p><a class="btn" href="{{ d.get_absolute_url }}">View</a></p>
     </div>
     </li>
     {% endfor %}
 </ul>
+<h4>{% trans "Comments" %}</h4>
+<div class="comments">
+    {% render_comment_list for dataset %}
+    {% render_comment_form for dataset %}
+</div>
 {% endblock %}

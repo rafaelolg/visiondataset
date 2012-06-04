@@ -16,15 +16,14 @@
 <div class='datum-description'>
     <h2>{{datum.name}}</h2>
     <span class="label label-info">{{ datum.dataset.owner.username}}</span>
-    {{datum.description|escape|linebreaks}}
     <p>
-    {%trans "File"%}:
+    <strong>{%trans "File"%}</strong>
     {{datum.file_render|safe}}
     </p>
 </div>
+<h4>{% trans "Comments" %}</h4>
 <div class="comments">
     {% render_comment_list for datum %}
-    {% get_comment_count for datum as comment_count %}.
     {% render_comment_form for datum %}
 </div>
 

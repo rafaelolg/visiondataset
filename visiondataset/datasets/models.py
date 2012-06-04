@@ -18,7 +18,6 @@ class Dataset(models.Model):
     name = models.CharField(max_length=256)
     owner = models.ForeignKey(User, related_name='+')
     created = CreationDateTimeField(_('created'))
-    description = models.TextField(_('description'), blank=True)
 
     class Meta:
         permissions = (

@@ -19,12 +19,11 @@
     <div class='thumbnail'>
         <h5 class="dataset-name">{{ dataset.name }}</h5>
         <p><span class="label label-info">{{ dataset.owner.username}}</span> </p>
-            {{dataset.description|truncatechars:140|escape|linebreaks}}
         <p>
-            <a class="btn btn-primary" href="{{ dataset.get_absolute_url }}">View</a>
-            {%if dataset.owner == user or user.is_superuser %}
-            <a class="btn " href="{{ dataset.get_absolute_url }}">Edit</a>
-            {%endif%}
+        <a class="btn btn-primary" href="{{ dataset.get_absolute_url }}">View</a>
+        {%if dataset.owner == user or user.is_superuser %}
+        <a class="btn " href="{{ dataset.get_absolute_url }}">Edit</a>
+        {%endif%}
         </p>
     </div>
     </li>

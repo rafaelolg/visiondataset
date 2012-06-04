@@ -62,12 +62,18 @@ class DatasetDetail(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(DatasetDetail, self).get_context_data(**kwargs)
         context['dataset'] = self.get_object()
+        context['next'] = self.get_object().get_absolute_url()
         return context
 
 
 class DatumDetail(LoginRequiredMixin, DetailView):
     context_object_name = "datum"
     model = Datum
+
+    def get_context_data(self, **kwargs):
+        context = super(DatumDetail, self).get_context_data(**kwargs)
+        context['next'] = self.get_object().get_absolute_url()
+        return context
 
 #TODO:colocar permissao nisso
 class DatumCreate(LoginRequiredMixin, CreateView):

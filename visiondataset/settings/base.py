@@ -18,6 +18,9 @@ SITE_ID = 1
 ROOT_URLCONF = 'visiondataset.urls'
 
 INSTALLED_APPS = [
+        # Local apps, referenced via visiondataset.appname
+        'visiondataset.base',
+        'visiondataset.datasets',
         # Django contrib apps
         'django.contrib.auth',
         'django.contrib.contenttypes',
@@ -33,9 +36,6 @@ INSTALLED_APPS = [
         'django.contrib.comments',
         #migrations
         'south',
-        # Local apps, referenced via visiondataset.appname
-        'visiondataset.base',
-        'visiondataset.datasets',
         # Third-party apps, patches, fixes
         'django_extensions',
         'commonware.response.cookies',
