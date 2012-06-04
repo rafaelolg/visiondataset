@@ -9,13 +9,15 @@ def bad(request):
     1 / 0
 
 urlpatterns = patterns('',
-    (r'', include('debug_toolbar_user_panel.urls')),
     (r'', include('visiondataset.base.urls')),
     (r'^dataset/', include('visiondataset.datasets.urls')),
+    #amdin
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
-    #url(r'^', include('debug_toolbar_user_panel.urls')),
+    #3rd party
+    (r'', include('debug_toolbar_user_panel.urls')),
     (r'^accounts/', include('userena.urls')),
+    (r'^comments/', include('django.contrib.comments.urls')),
     (r'^bad/$', bad),
 )
 

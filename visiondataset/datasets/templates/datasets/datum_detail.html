@@ -1,5 +1,7 @@
 {%extends "base_with_sidebar.html"%}
 {% load i18n %}
+{% load comments %}
+
 {% block title %}{{datum.name}}{% endblock title%}
 
 {%block sidebar%}
@@ -20,4 +22,10 @@
     {{datum.file_render|safe}}
     </p>
 </div>
+<div class="comments">
+    {% render_comment_list for datum %}
+    {% get_comment_count for datum as comment_count %}.
+    {% render_comment_form for datum %}
+</div>
+
 {% endblock %}

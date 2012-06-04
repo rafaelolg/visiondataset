@@ -30,6 +30,7 @@ INSTALLED_APPS = [
         'django.contrib.humanize',
         'django.contrib.syndication',
         'django.contrib.staticfiles',
+        'django.contrib.comments',
         #migrations
         'south',
         # Local apps, referenced via visiondataset.appname
