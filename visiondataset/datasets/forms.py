@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from django.forms import ModelForm
-from models import Dataset
+from models import Dataset, Datum
 
 
 class DatasetModelForm(ModelForm):
@@ -9,6 +9,12 @@ class DatasetModelForm(ModelForm):
     class Meta:
         model = Dataset
         exclude = ('owner', 'created')
+
+class DatumModelForm(ModelForm):
+    class Meta:
+        model = Datum
+        exclude = ('owner', 'dataset', 'created')
+
 
 # forms.py
 

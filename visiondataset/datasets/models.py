@@ -63,13 +63,7 @@ class Datum(models.Model):
     description = models.TextField(_('description'), blank=True)
     package = models.FileField(_("file"), upload_to=get_package_file_path, max_length=100,
             storage=protected_storage)
-    dtype = models.ForeignKey(DataType, related_name='+')
-
-    def is_user_allowed(self, user):
-        allowed = self.owner == user
-        if not allowed:
-            allowed = user.has_perm('dataset_colaborate', self)
-        return allowed
+    dtype = models.ForeignKey(DataType,verbose_name= _("Type"), related_name='+')
 
     class Meta:
         get_latest_by = 'created'
@@ -80,5 +74,11 @@ class Datum(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('datasets_datum_detail',(),{'pk':self.pk})
+        return ('datasets_datum_detail',(),{'dataset_id':self.dataset_id, 'pk':self.pk})
+
+    def is_user_allowed(self, user):
+        allowed = self.owner == user
+        if not allowed:
+            allowed = user.has_perm('dataset_colaborate', self)
+        return allowed
 
