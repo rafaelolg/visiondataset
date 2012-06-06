@@ -20,6 +20,7 @@
 
     {% block extra_css %}{% endblock %}
     <script src="{{ STATIC_URL }}js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
+    {% block extrahead %}{% endblock %}
     <link rel="shortcut icon" href="{{STATIC_URL}}favicon.ico">
 </head>
 <body class="{% block body_class %}{% endblock %}">

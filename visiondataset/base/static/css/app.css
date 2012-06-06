@@ -34,3 +34,8 @@ h4
 .dataset-description{
     padding-bottom: 1em;
 }
+.owner img {
+    border: 1px solid #Daa;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+}
