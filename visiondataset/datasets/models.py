@@ -9,7 +9,8 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
-
+from guardian.shortcuts import get_users_with_perms
+from visiondataset.base.models import UserProfile
 
 DEFAULT_DTYPE_TEMPLATE='''<a href="%(file_url)s">%(file_name)s</a>'''
 
@@ -34,6 +35,10 @@ class Dataset(models.Model):
     def get_absolute_url(self):
         return ('datasets_dataset_detail',(),{'pk':self.pk})
 
+    def colaborators(self):
+        users = get_users_with_perms(self)
+        profiles = UserProfile.objects.filter(user__in=users)
+        return profiles
 
 class DataType(models.Model):
     """docstring"""
@@ -82,10 +87,10 @@ class Datum(models.Model):
         if not allowed:
             allowed = user.has_perm('dataset_colaborate', self)
         return allowed
-    
+
     def file_url(self):
         return reverse('datasets_datum_file', kwargs={'dataset_id':self.dataset_id, 'pk':self.pk})
-    
+
     def file_name(self):
         return slugify(self.name) + '.' + self.package.name.split('.')[-1]
 

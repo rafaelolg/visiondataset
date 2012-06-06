@@ -1,0 +1,41 @@
+{%extends "base_with_sidebar.html"%}
+{% load i18n comments %}
+{% block title %}{{dataset.name}}{% endblock title%}
+
+
+
+{% block extra_js %}
+<script type="text/javascript">
+makeAutocomplete($('.autocomplete-me'));
+</script>
+{{form.media}}
+{%endblock%}
+
+
+
+{%block sidebar%}
+<ul class="nav nav-list">
+    <li class="nav-header">{%trans "Actions" %}</li>
+    <li class=""><a href="{% url datasets_dataset_list %}">{%trans "List datasets"%}</a></li>
+    <li class=""><a href="{% url datasets_datum_create dataset.id %}">{%trans "Create new datum"%}</a></li>
+    <li class="active"><a href="{% url datasets_dataset_colaborators dataset.id %}">{%trans "Manage colaborators"%}</a></li>
+</ul>
+{%endblock%}
+
+
+{% block content %}
+<div class='dataset-description'>
+    <h2>{{dataset.name}}</h2>
+    <span class="label label-info">{{ dataset.owner.username}}</span>
+    {%include 'datasets/colaborators_list_snippet.html' %}
+</div>
+
+<div class="colaborator-form">
+    <form method="post" action="">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="{%trans 'Add'%}" />
+        </p>
+    </form>
+</div>
+{% endblock %}

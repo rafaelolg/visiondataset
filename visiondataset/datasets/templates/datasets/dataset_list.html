@@ -17,9 +17,8 @@
     {% for dataset in dataset_list %}
     <li class='span5'>
     <div class='thumbnail'>
-        <h5 class="dataset-name">{{ dataset.name }}</h5>
-        <p><span class="label label-info">{{ dataset.owner.username}}</span> </p>
-        <p>
+        <h3 class="dataset-name">{{ dataset.name }}</h3>
+        {%include 'datasets/colaborators_list_snippet.html' %}
         <a class="btn btn-primary" href="{{ dataset.get_absolute_url }}">View</a>
         {%if dataset.owner == user or user.is_superuser %}
         <a class="btn " href="{{ dataset.get_absolute_url }}">Edit</a>

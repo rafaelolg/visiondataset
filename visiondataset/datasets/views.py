@@ -1,3 +1,5 @@
+import logging
+
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponseRedirect, HttpResponseForbidden
@@ -5,15 +7,15 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView, DetailView, CreateView, \
         UpdateView, DeleteView
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render_to_response
 from django.core.exceptions import PermissionDenied
-
+from django.template import RequestContext
 from guardian.shortcuts import get_objects_for_user, get_users_with_perms, assign
 from sendfile import sendfile
 
 from models import Dataset, Datum, DataType
 from view_mixins import LoginRequiredMixin, PermissionRequiredMixin
-from forms import DatasetModelForm, DatumModelForm
+from forms import DatasetModelForm, DatumModelForm, ColaboratorForm
 
 
 
@@ -104,3 +106,19 @@ def datum_file(request, pk, dataset_id=None):
                 attachment_filename=filename)
     else:
         return HttpResponseForbidden(_("You can't view this"));
+
+
+@login_required
+def edit_colaborators(request, pk):
+    dataset = get_object_or_404(Dataset, pk=pk)
+    if request.method == 'POST':
+        form = ColaboratorForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            print(data)
+    else:
+        form = ColaboratorForm()
+    return render_to_response('datasets/dataset_colaborators.html',
+            {'form': form, 'dataset':dataset},
+            context_instance=RequestContext(request))
+    return HttpResponseForbidden()

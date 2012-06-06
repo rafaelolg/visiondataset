@@ -15,7 +15,7 @@
 {% block content %}
 <div class='datum-description'>
     <h2>{{datum.name}}</h2>
-    <span class="label label-info">{{ datum.dataset.owner.username}}</span>
+    <span class="label label-info">{{ datum.owner.username}}</span>
     <p>
     <strong>{%trans "File"%}</strong>
     {{datum.file_render|safe}}

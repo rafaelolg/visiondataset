@@ -5,8 +5,9 @@
 {%block sidebar%}
 <ul class="nav nav-list">
     <li class="nav-header">{%trans "Actions" %}</li>
-    <li class=""><a href="{% url datasets_dataset_list %}">{%trans "List datasets"%}</a></li>
+    <li class="active"><a href="{% url datasets_dataset_list %}">{%trans "List datasets"%}</a></li>
     <li class=""><a href="{% url datasets_datum_create dataset.id %}">{%trans "Create new datum"%}</a></li>
+    <li class=""><a href="{% url datasets_dataset_colaborators dataset.id %}">{%trans "Manage colaborators"%}</a></li>
 </ul>
 {%endblock%}
 
@@ -14,7 +15,6 @@
 {% block content %}
 <div class='dataset-description'>
     <h2>{{dataset.name}}</h2>
-    <span class="label label-info">{{ dataset.owner.username}}</span>
 </div>
 {% include "pagination.html" %}
 <ul class='datum-list thumbnails'>
@@ -27,6 +27,7 @@
     </li>
     {% endfor %}
 </ul>
+{%include 'datasets/colaborators_list_snippet.html' %}
 <h4>{% trans "Comments" %}</h4>
 <div class="comments">
     {% render_comment_list for dataset %}
