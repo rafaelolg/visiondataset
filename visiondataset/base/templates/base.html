@@ -69,6 +69,16 @@
         <div class="row-fluid">
             {%block sidebar_placeholder%} {%endblock sidebar_placeholder%}
             <div class="span10">
+                {% if messages %}
+                <div class="row-fluid">
+                    {% for message in messages %}
+                    <div class="span4 alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
+                        <a class="close" data-dismiss="alert" href="#">×</a>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
                 {% block content %}{% endblock %}
             </div><!--/span-->
         </div><!--/row-->
