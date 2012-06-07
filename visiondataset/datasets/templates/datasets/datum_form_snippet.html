@@ -3,15 +3,19 @@
 <form class="form-vertical" enctype="multipart/form-data" action="{% url datasets_datum_create dataset_id=dataset_id%}" method="post">
     {% csrf_token %}
     <fieldset>
-        <legend>{%trans "Datum basic info"%}</legend>
         {% for field in form %}
         <div class="control-group">
             <div class="controls">
-                <label class="control-label">{{ field.label_tag }}</label>
-                {{ field }}
-                {{ field.errors }}
+                <label class="control-label"></label>
             </div>
         </div>
+        <div class="control-group">
+            {{ field.label_tag }}
+            <div class="controls">
+                {{ field }}
+                <span class="help-inline">{{ field.errors }}</span>
+            </div>
+          </div>
     {% endfor %}
-    <p><input type="submit" value="{%trans "Save Changes"%}" class="btn"/></p>
+    <p><input type="submit" value="{%trans "Save"%}" class="btn"/></p>
 </form>
