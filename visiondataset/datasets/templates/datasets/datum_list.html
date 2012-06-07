@@ -5,9 +5,15 @@
 {%block sidebar%}
 <ul class="nav nav-list">
     <li class="nav-header">{%trans "Actions" %}</li>
-    <li class="active"><a href="{% url datasets_dataset_list %}">{%trans "List datasets"%}</a></li>
-    <li class=""><a href="{% url datasets_datum_create dataset.id %}">{%trans "Create new datum"%}</a></li>
+    <li class="active">
+    <a href="{% url datasets_dataset_detail dataset.id %}">
+        {%trans "View dataset"%} {{dataset.name}}</a>
+    </li>
+    <li class=""><a href="{% url datasets_datum_create dataset.id %}">{%trans "Add datum"%}</a></li>
+    {%if dataset.owner == user or user.is_superuser %}
     <li class=""><a href="{% url datasets_dataset_colaborators dataset.id %}">{%trans "Manage colaborators"%}</a></li>
+    {%endif%}
+    <li class=""><a href="{% url datasets_dataset_list %}">{%trans "Back"%}</a></li>
 </ul>
 {%endblock%}
 
