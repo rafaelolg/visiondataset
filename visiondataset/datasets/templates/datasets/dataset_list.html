@@ -5,7 +5,7 @@
 <ul class="nav nav-list">
     <li class="nav-header">{%trans "Dataset actions" %}</li>
     <li class="active"><a href="{% url datasets_dataset_list %}">{%trans "List datasets"%}</a></li>
-    <li class=><a href="{% url datasets_dataset_create %}">{%trans "Create new dataset"%}</a></li>
+    <li class=><a href="{% url datasets_dataset_create %}">{%trans "Create dataset"%}</a></li>
 </ul>
 {%endblock%}
 
@@ -18,11 +18,11 @@
     <li class='span5'>
     <div class='thumbnail'>
         <h3 class="dataset-name">{{ dataset.name }}</h3>
+        <p>
+        {{dataset.datum_set.count}} datums.
+        </p>
         {%include 'datasets/colaborators_list_snippet.html' %}
-        <a class="btn btn-primary" href="{{ dataset.get_absolute_url }}">View</a>
-        {%if dataset.owner == user or user.is_superuser %}
-        <a class="btn " href="{{ dataset.get_absolute_url }}">Edit</a>
-        {%endif%}
+        <a class="btn" href="{{ dataset.get_absolute_url }}">View</a>
         </p>
     </div>
     </li>
