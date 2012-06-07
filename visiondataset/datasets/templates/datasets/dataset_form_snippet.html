@@ -1,9 +1,7 @@
 {% load i18n %}
-
 <form class="form-vertical" action="{% url datasets_dataset_create %}" method="post">
     {% csrf_token %}
     <fieldset>
-        <legend>{%trans "Dataset basic info"%}</legend>
         {% for field in form %}
         <div class="control-group">
             <div class="controls">
@@ -13,5 +11,5 @@
             </div>
         </div>
     {% endfor %}
-    <p><input type="submit" value="{%trans "Save Changes"%}" class="btn"/></p>
+    <p><input type="submit" value="{%trans "Save"%}" class="btn"/></p>
 </form>
