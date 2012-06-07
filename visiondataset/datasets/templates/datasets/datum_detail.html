@@ -15,10 +15,17 @@
 {% block content %}
 <div class='datum-description'>
     <h2>{{datum.name}}</h2>
-    <span class="label label-info">{{ datum.owner.username}}</span>
     <p>
-    <strong>{%trans "File"%}</strong>
+    <h4>{%trans "File"%}</h4>
     {{datum.file_render|safe}}
+    </p>
+    <p>
+    <h4>{%trans "Posted by"%}</h4>
+    <a href='#{% url userena_profile_detail datum.owner.username %}'>
+    <img src='{{datum.owner.user_profile.get_mugshot_url}}' alt='{{datum.owner.user_profile.get_full_name_or_username}} mugshot'/>     
+    {{datum.owner.user_profile.get_full_name_or_username}}
+    </a>
+
     </p>
 </div>
 <h4>{% trans "Comments" %}</h4>
