@@ -22,17 +22,24 @@
 <div class='dataset-description'>
     <h2>{{dataset.name}}</h2>
 </div>
+
 {% include "pagination.html" %}
-<ul class='datum-list thumbnails'>
-    {% for d in datum_list %}
-    <li class='span2'>
-    <div class='thumbnail'>
-        <strong class="datum-name">{{ d.name }}</strong>
-        <p><a class="btn" href="{{ d.get_absolute_url }}">View</a></p>
+    {% regroup datum_list|dictsort:"dtype_id" by dtype as dtype_list %}
+    {% for dt in dtype_list %}
+    <h3>{{dt.grouper.name}}</h3>
+    <div id="list-{{dt.grouper}}">
+        <ul class='datum-list thumbnails'>
+            {% for d in dt.list %}
+            <li class='span2'>
+            <div class='thumbnail'>
+                <strong class="datum-name">{{ d.name }}</strong>
+                <p><a class="btn" href="{{ d.get_absolute_url }}">View</a></p>
+            </div>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
-    </li>
     {% endfor %}
-</ul>
 {%include 'datasets/colaborators_list_snippet.html' %}
 <h4>{% trans "Comments" %}</h4>
 <div class="comments">
