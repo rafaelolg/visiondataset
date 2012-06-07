@@ -2,21 +2,24 @@ import logging
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import Http404, HttpResponseRedirect, HttpResponseForbidden
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView, DetailView, CreateView, \
         UpdateView, DeleteView
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.core.exceptions import PermissionDenied
 from django.template import RequestContext
-from guardian.shortcuts import get_objects_for_user, get_users_with_perms, assign
+from guardian.shortcuts import get_objects_for_user, get_users_with_perms,\
+        assign, remove_perm
+from django.contrib import messages
+
 from sendfile import sendfile
 
 from models import Dataset, Datum, DataType
 from view_mixins import LoginRequiredMixin, PermissionRequiredMixin
 from forms import DatasetModelForm, DatumModelForm, ColaboratorForm
-
 
 
 DATASET_COLABORATE_PERMISSION='dataset_colaborate'
@@ -109,16 +112,35 @@ def datum_file(request, pk, dataset_id=None):
 
 
 @login_required
-def edit_colaborators(request, pk):
-    dataset = get_object_or_404(Dataset, pk=pk)
+def edit_colaborators(request, dataset_id):
+    dataset = get_object_or_404(Dataset, pk=dataset_id)
+
+    if request.user != dataset.owner:
+        return HttpResponseForbidden(_("You can't view this"));
+
     if request.method == 'POST':
         form = ColaboratorForm(request.POST)
         if form.is_valid():
-            data = form.cleaned_data
-            print(data)
+            username = form.cleaned_data['username']
+            try:
+                u = User.objects.get(username=username)
+            except Exception, e:
+                messages.error(request, _("No such user: ")+username)
+            assign(DATASET_COLABORATE_PERMISSION, u, dataset)
+            form = ColaboratorForm()
+            messages.success(request, _("New colaborator: ")+ username)
     else:
         form = ColaboratorForm()
     return render_to_response('datasets/dataset_colaborators.html',
             {'form': form, 'dataset':dataset},
             context_instance=RequestContext(request))
     return HttpResponseForbidden()
+
+@login_required
+def remove_colaborators(request, dataset_id, colaborator_id):
+    dataset = get_object_or_404(Dataset, pk=dataset_id)
+    if request.user != dataset.owner or colaborator_id == dataset.owner_id:
+        return HttpResponseForbidden(_("You can't view this"));
+    colaborator = get_object_or_404(User, pk=colaborator_id)
+    remove_perm(DATASET_COLABORATE_PERMISSION, colaborator, dataset)
+    return redirect('datasets_dataset_colaborators', dataset_id=dataset_id)
