@@ -20,11 +20,11 @@ class DatumModelForm(ModelForm):
 
 
 class ColaboratorForm(forms.Form):
-    user = forms.CharField(max_length=256, required=True, label=_('User or Email'))
+    username = forms.CharField(max_length=256, required=True, label=_('User or Email'))
 
     def __init__(self, *args, **kwargs):
         super(ColaboratorForm, self).__init__(*args, **kwargs)
-        self.fields['user'].widget = widgets.TextInput(attrs={'class': 'autocomplete-me'})
+        self.fields['username'].widget = widgets.TextInput(attrs={'class': 'autocomplete-me'})
 
     class Media:
         js = ('js/libs/jquery.autocomplete.min.js', 'js/libs/autocomplete-init.js',)
