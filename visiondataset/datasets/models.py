@@ -66,7 +66,7 @@ class Datum(models.Model):
     owner = models.ForeignKey(User, related_name='+')
     created = CreationDateTimeField(_('created'))
     name = models.CharField(max_length=256)
-    package = models.FileField(_("file"), upload_to=get_package_file_path, max_length=100, 
+    package = models.FileField(_("file"), upload_to=get_package_file_path, max_length=100,
             storage=protected_storage)
     dtype = models.ForeignKey(DataType,verbose_name= _("Type"), related_name='+',
             blank=False, default=1)
