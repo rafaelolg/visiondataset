@@ -5,12 +5,14 @@
 {%block sidebar%}
 <ul class="nav nav-list">
     <li class="nav-header">{%trans "Actions" %}</li>
+    <li class="active"><a href="{% url datasets_datum_create dataset_id %}">{%trans "Add datum"%}</a></li>
+    <li class=""><a href="{% url datasets_dataset_detail dataset_id %}">{%trans "Back"%}</a></li>
 </ul>
 {%endblock%}
 
 {% block title %}{%trans "Add Datum "%}{% endblock title%}
 
 {% block content %}
-<h1>{%trans "Add dataset"%}</h1>
+<h1>{%trans "Add datum"%}</h1>
 {% include 'datasets/datum_form_snippet.html' %}
 {% endblock %}
