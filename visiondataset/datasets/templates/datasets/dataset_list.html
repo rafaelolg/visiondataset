@@ -15,15 +15,18 @@
 {% include "pagination.html" %}
 <ul class='dataset-list thumbnails'>
     {% for dataset in dataset_list %}
-    <li class='span5'>
+    <li class='span2'>
     <div class='thumbnail'>
-        <h3 class="dataset-name">{{ dataset.name }}</h3>
-        <p>
-        {{dataset.datum_set.count}} datums.
-        </p>
-        {%include 'datasets/colaborators_list_snippet.html' %}
-        <a class="btn" href="{{ dataset.get_absolute_url }}">View</a>
-        </p>
+        <div class="dataset-card">
+            <h3 class="dataset-name">{{ dataset.name }}</h3>
+            <p>
+            {{dataset.datum_set.count}} datums.
+            </p>
+        </div>
+        <div class="dataset-bottom">
+            {%include 'datasets/colaborators_list_snippet.html' %}
+            <a class="btn" href="{{ dataset.get_absolute_url }}">View</a>
+        </div>
     </div>
     </li>
     {% endfor %}
