@@ -18,7 +18,7 @@ from django.contrib import messages
 from sendfile import sendfile
 
 from models import Dataset, Datum, DataType
-from view_mixins import LoginRequiredMixin, PermissionRequiredMixin
+from visiondataset.base.view_mixins import LoginRequiredMixin, PermissionRequiredMixin
 from forms import DatasetModelForm, DatumModelForm, ColaboratorForm
 
 
@@ -101,9 +101,9 @@ class DatumCreate(LoginRequiredMixin, CreateView):
 
 
 @login_required
-def datum_file(request, pk, dataset_id=None):
+def datum_file(request, pk, dataset_id=None, prefix=''):
     datum = get_object_or_404(Datum, pk=pk)
-    filename = datum.file_name()
+    filename = prefix + datum.file_name()
     if datum.is_user_allowed(request.user):
         return sendfile(request, datum.package.path, attachment=True,
                 attachment_filename=filename)
