@@ -1,5 +1,7 @@
 import uuid
 import os
+import string
+import logging
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -12,7 +14,10 @@ from django.template.defaultfilters import slugify
 from guardian.shortcuts import get_users_with_perms
 from visiondataset.base.models import UserProfile
 
-DEFAULT_DTYPE_TEMPLATE='''<a href="%(file_url)s">%(file_name)s</a>'''
+DEFAULT_DTYPE_TEMPLATE='''<a href="${file_url}">${file_name}</a> '''
+DEFAULT_DTYPE_CREATE_THUMBNAIL='''convert -resize 160x $file_name $thumbnail_file_name'''
+
+LOGGER = logging.getLogger()
 
 class Dataset(models.Model):
     """Set of datums"""
@@ -45,6 +50,8 @@ class DataType(models.Model):
     name = models.CharField(max_length=50)
     slug = AutoSlugField(_('slug'), populate_from='name')
     template_to_view = models.TextField(default=DEFAULT_DTYPE_TEMPLATE)
+    create_thumbnail_command = models.TextField(default=DEFAULT_DTYPE_CREATE_THUMBNAIL)
+
     def __unicode__(self):
         return self.name
 
@@ -52,7 +59,26 @@ class DataType(models.Model):
     def get_absolute_url(self):
         return ('datatype_view',(),{'slug':str(self.slug)})
 
+    def create_thumbnail(self, absolut_file_name, destination_dir):
+        """"
+        creates the thumbnail of absolut_file_name file into destination_dir
+        Warning: be sure the create_thumbnail command is safe.
+        """
+        destination_dir = os.path.join(settings.SENDFILE_ROOT, destination_dir)
+        try:
+            os.mkdir(destination_dir)
+        except:
+            pass
+        basename = os.path.basename(absolut_file_name).split('.')[-2] + '.png'
+        thumbnail_file_name = os.path.join(destination_dir,basename)
+        if not os.path.exists(thumbnail_file_name):
+            template = string.Template(self.create_thumbnail_command.strip())
+            cmd = template.safe_substitute(file_name=absolut_file_name,
+                    thumbnail_file_name=thumbnail_file_name)
+            print('creating thumbnail:'+cmd)
 
+            os.system(cmd)
+        return thumbnail_file_name
 
 protected_storage = FileSystemStorage(location=settings.SENDFILE_ROOT)
 def get_package_file_path(instance, filename, prefix='datum'):
@@ -91,10 +117,17 @@ class Datum(models.Model):
     def file_url(self):
         return reverse('datasets_datum_file', kwargs={'dataset_id':self.dataset_id, 'pk':self.pk})
 
+    def thumbnail_url(self):
+        url= reverse('datasets_datum_thumbnail', kwargs={'dataset_id':self.dataset_id, 'pk':self.pk})
+        return url
+
     def file_name(self):
         return slugify(self.name) + '.' + self.package.name.split('.')[-1]
 
     def file_render(self):
-        text = self.dtype.template_to_view % {'file_url':self.file_url(), 'file_name':
-                    self.file_name()}
+        template = string.Template(self.dtype.template_to_view)
+        text = template.safe_substitute(file_url=self.file_url(), file_name=self.file_name())
         return text
+
+    def get_thumbnail_file_path(self):
+        return self.dtype.create_thumbnail(self.package.path,'datum_thumbnails')

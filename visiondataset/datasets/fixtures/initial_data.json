@@ -3,9 +3,20 @@
     "pk": 1, 
     "model": "datasets.datatype", 
     "fields": {
+      "create_thumbnail_command": "convert -resize 160x '$file_name' '$thumbnail_file_name'", 
       "name": "image", 
-      "template_to_view": "<img src=\"%(file_url)s\"/>", 
+      "template_to_view": "<img src=\"$file_url\"/>", 
       "slug": "image"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "datasets.datatype", 
+    "fields": {
+      "create_thumbnail_command": "ffmpegthumbnailer -i  '$file_name' -s 160 -o '$thumbnail_file_name' -f", 
+      "name": "video", 
+      "template_to_view": "<a href=\"${file_url}\">${file_name}</a> ", 
+      "slug": "video"
     }
   }
 ]

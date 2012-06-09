@@ -100,12 +100,23 @@ class DatumCreate(LoginRequiredMixin, CreateView):
 
 
 
-@login_required
-def datum_file(request, pk, dataset_id=None, prefix=''):
+def datum_file(request, pk, dataset_id=None):
     datum = get_object_or_404(Datum, pk=pk)
-    filename = prefix + datum.file_name()
+    filename = datum.file_name()
+    absolut_file_path = datum.package.path
+    return datum_send_file(request, filename, absolut_file_path, datum)
+
+
+def datum_thumbnail(request, pk, dataset_id=None):
+    datum = get_object_or_404(Datum, pk=pk)
+    filename = 'thumb_' + datum.file_name()
+    absolut_file_path = datum.get_thumbnail_file_path()
+    return datum_send_file(request, filename, absolut_file_path, datum)
+
+@login_required
+def datum_send_file(request, filename, absolut_file_path, datum):
     if datum.is_user_allowed(request.user):
-        return sendfile(request, datum.package.path, attachment=True,
+        return sendfile(request, absolut_file_path, attachment=True,
                 attachment_filename=filename)
     else:
         return HttpResponseForbidden(_("You can't view this"));
@@ -144,3 +155,4 @@ def remove_colaborators(request, dataset_id, colaborator_id):
     colaborator = get_object_or_404(User, pk=colaborator_id)
     remove_perm(DATASET_COLABORATE_PERMISSION, colaborator, dataset)
     return redirect('datasets_dataset_colaborators', dataset_id=dataset_id)
+

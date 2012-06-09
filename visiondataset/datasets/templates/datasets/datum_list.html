@@ -32,6 +32,7 @@
             {% for d in dt.list %}
             <li class='span2'>
             <div class='thumbnail'>
+                <img src="{{d.thumbnail_url}}"/>
                 <strong class="datum-name">{{ d.name }}</strong>
                 <p><a class="btn" href="{{ d.get_absolute_url }}">View</a></p>
             </div>

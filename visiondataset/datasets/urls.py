@@ -2,7 +2,7 @@
 
 from django.conf.urls.defaults import url, patterns
 from views import DatasetList, DatasetCreate, DatasetDetail, \
-        DatumDetail, DatumCreate, datum_file, edit_colaborators, remove_colaborators
+        DatumDetail, DatumCreate, datum_file,datum_thumbnail, edit_colaborators, remove_colaborators
 
 
 urlpatterns = patterns('visiondataset.datasets.views',
@@ -15,4 +15,5 @@ urlpatterns = patterns('visiondataset.datasets.views',
         url(r'^(?P<dataset_id>\d+)/datum/(?P<pk>\d+)/?$', DatumDetail.as_view(), name='datasets_datum_detail'),
         url(r'^(?P<dataset_id>\d+)/datum/create/?$', DatumCreate.as_view(), name='datasets_datum_create'),
         url(r'^(?P<dataset_id>\d+)/datum/(?P<pk>\d+)/file/?$', datum_file, name='datasets_datum_file'),
+        url(r'^(?P<dataset_id>\d+)/datum/(?P<pk>\d+)/thumbnail/?$', datum_thumbnail, name='datasets_datum_thumbnail'),
 )
