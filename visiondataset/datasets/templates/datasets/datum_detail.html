@@ -7,6 +7,7 @@
 {%block sidebar%}
 <ul class="nav nav-list">
     <li class=""><a href="{# url datasets_dataset_create #}">{%trans "Delete datum"%}</a></li>
+    <li class=""><a href="{{ datum.file_url }}">{%trans "Download"%}</a></li>
     <li class=""><a href="{%url datasets_dataset_detail  pk=datum.dataset.pk %}">{%trans "Back"%}</a></li>
 </ul>
 {%endblock%}
