@@ -2,10 +2,14 @@
 <div class="colaborator-list">
     <h4>{%trans "Colaborators"%}</h4>
     {% for c in dataset.colaborators %}
+    {%if not nolinks%}
     <a href='{% url userena_profile_detail c.user.username %}' 
         {%if c.user_id == dataset.owner_id%}class="owner"{%endif%}>
+        {%endif%}
         <img src='{{c.get_mugshot_url}}' alt='{{c.get_full_name_or_username}}' height="33" width="33"/>
-        </a>
+        {%if not nolinks%}
+    </a>
+    {%endif%}
     {% endfor %}
 </div>
 

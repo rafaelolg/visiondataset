@@ -48,5 +48,13 @@ h4
     padding: 10px;
 }
 .datum-image {
-    min-height: 140px;
+    min-height: 150px;
+}
+a.thumb-link {
+    color: #333333;
+    text-decoration: none;
+    display: block;
+}
+a.thumb-link > div.thumbnail:hover{
+    box-shadow: 0 3px 3px rgba(0, 10, 10, 0.75);
 }

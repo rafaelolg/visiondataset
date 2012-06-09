@@ -16,18 +16,17 @@
 <ul class='dataset-list thumbnails'>
     {% for dataset in dataset_list %}
     <li class='span3'>
-    <div class='thumbnail'>
-        <div class="dataset-card">
-            <h3 class="dataset-name">{{ dataset.name }}</h3>
-            <p>
-            {{dataset.datum_set.count}} datums.
-            </p>
+    <a class="thumb-link" href="{{ dataset.get_absolute_url }}"> 
+        <div class='thumbnail'>
+            <div class="dataset-card">
+                <h3 class="dataset-name">{{ dataset.name }}</h3>
+                <p>{{dataset.datum_set.count}} datums.</p>
+            </div>
+            <div class="dataset-bottom">
+                {%include 'datasets/colaborators_list_snippet.html' with nolinks="True" %}
+            </div>
         </div>
-        <div class="dataset-bottom">
-            {%include 'datasets/colaborators_list_snippet.html' %}
-            <a class="btn" href="{{ dataset.get_absolute_url }}">View</a>
-        </div>
-    </div>
+    </a>
     </li>
     {% endfor %}
 </ul>

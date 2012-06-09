@@ -31,13 +31,16 @@
         {% for dt in dtype_list %}
         {% for d in dt.list %}
         <li class='span2'>
+        <a class="thumb-link" href="{{ d.get_absolute_url }}">
         <div class='thumbnail'>
             <div class="datum-image">
-                <img src="{{d.thumbnail_url}}"/>
+                <p>
                 <strong class="datum-name">{{ d.name }}</strong>
+                </p>
+                <img src="{{d.thumbnail_url}}"/>
             </div>
-            <p><a class="btn" href="{{ d.get_absolute_url }}">View</a></p>
         </div>
+        </a>
         </li>
         {% endfor %}
         {% endfor %}
