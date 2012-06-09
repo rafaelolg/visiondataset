@@ -17,7 +17,7 @@ from visiondataset.base.models import UserProfile
 DEFAULT_DTYPE_TEMPLATE='''<a href="${file_url}">${file_name}</a> '''
 DEFAULT_DTYPE_CREATE_THUMBNAIL='''convert -resize 160x $file_name $thumbnail_file_name'''
 
-LOGGER = logging.getLogger()
+LOGGER = logging.getLogger(__name__)
 
 class Dataset(models.Model):
     """Set of datums"""
@@ -75,7 +75,7 @@ class DataType(models.Model):
             template = string.Template(self.create_thumbnail_command.strip())
             cmd = template.safe_substitute(file_name=absolut_file_name,
                     thumbnail_file_name=thumbnail_file_name)
-            print('creating thumbnail:'+cmd)
+            LOGGER.debug('creating thumbnail:'+cmd)
 
             os.system(cmd)
         return thumbnail_file_name

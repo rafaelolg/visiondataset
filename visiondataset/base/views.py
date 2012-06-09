@@ -6,6 +6,9 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from models import UserProfile
+import logging
+
+LOGGER = logging.getLogger(__name__)
 
 import urls
 
@@ -26,5 +29,5 @@ def autocomplete_users(request):
                 'mugshot': profile.get_mugshot_url(),
                 'fullname': profile.get_full_name_or_username()}
         output = output + linha
-    print output
+    LOGGER.debug(output)
     return HttpResponse(output, mimetype='text/plain')

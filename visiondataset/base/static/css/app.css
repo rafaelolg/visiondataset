@@ -47,3 +47,6 @@ h4
     position: relative;
     padding: 10px;
 }
+.datum-image {
+    min-height: 140px;
+}
