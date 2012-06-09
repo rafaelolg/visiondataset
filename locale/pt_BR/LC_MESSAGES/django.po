@@ -1,0 +1,552 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-06-09 03:21-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+
+#: visiondataset/base/models.py:10
+msgid "user"
+msgstr ""
+
+#: visiondataset/base/templates/example.html:12
+msgid "Your Site"
+msgstr ""
+
+#: visiondataset/base/templates/pagination.html:8
+msgid "Previous"
+msgstr ""
+
+#: visiondataset/base/templates/pagination.html:12
+msgid "Next"
+msgstr ""
+
+#: visiondataset/base/templates/comments/form.html:18
+msgid "Add Comment"
+msgstr ""
+
+#: visiondataset/base/templates/userena/activate_fail.html:4
+msgid "Account activation failed."
+msgstr ""
+
+#: visiondataset/base/templates/userena/activate_fail.html:5
+msgid "Your account could not be activated..."
+msgstr ""
+
+#: visiondataset/base/templates/userena/activate_fail.html:8
+msgid ""
+"Your account could not be activated. This could be because your activation "
+"link has aged."
+msgstr ""
+
+#: visiondataset/base/templates/userena/activate_fail.html:9
+msgid ""
+"Please try signing up again or contact us if you think something went wrong."
+msgstr ""
+
+#: visiondataset/base/templates/userena/disabled.html:4
+msgid "Disabled account"
+msgstr ""
+
+#: visiondataset/base/templates/userena/disabled.html:5
+msgid "Your account has been disabled"
+msgstr ""
+
+#: visiondataset/base/templates/userena/disabled.html:7
+msgid "It seems your account has been disabled."
+msgstr ""
+
+#: visiondataset/base/templates/userena/disabled.html:8
+msgid ""
+"If you feel that injustice has been done to you, feel free to contact the "
+"administrators to find out why"
+msgstr ""
+
+#: visiondataset/base/templates/userena/email_change_complete.html:4
+msgid "Email verification"
+msgstr ""
+
+#: visiondataset/base/templates/userena/email_change_complete.html:5
+msgid "Confirm your new email"
+msgstr ""
+
+#: visiondataset/base/templates/userena/email_change_complete.html:8
+#, python-format
+msgid "You have received an email at %(email)s."
+msgstr ""
+
+#: visiondataset/base/templates/userena/email_change_complete.html:9
+#, python-format
+msgid ""
+"To associate this email address with your account (%(username)s) click on "
+"the link provided in this email."
+msgstr ""
+
+#: visiondataset/base/templates/userena/email_confirm_complete.html:4
+msgid "Email changed!"
+msgstr ""
+
+#: visiondataset/base/templates/userena/email_confirm_complete.html:6
+msgid "New email"
+msgstr ""
+
+#: visiondataset/base/templates/userena/email_confirm_complete.html:8
+#, python-format
+msgid ""
+"Your new email address is saved. You can continue using %(site)s with this "
+"email."
+msgstr ""
+
+#: visiondataset/base/templates/userena/email_confirm_fail.html:4
+msgid "Email verification failed."
+msgstr ""
+
+#: visiondataset/base/templates/userena/email_confirm_fail.html:5
+#: visiondataset/base/templates/userena/email_confirm_fail.html:8
+msgid "Your email could not be verified..."
+msgstr ""
+
+#: visiondataset/base/templates/userena/email_confirm_fail.html:9
+msgid "You could try changing it again in your account settings."
+msgstr ""
+
+#: visiondataset/base/templates/userena/email_form.html:4
+#: visiondataset/base/templates/userena/password_form.html:6
+#: visiondataset/base/templates/userena/profile_form.html:6
+#, python-format
+msgid "Account &raquo; %(username)s"
+msgstr ""
+
+#: visiondataset/base/templates/userena/email_form.html:15
+msgid "Change email address"
+msgstr ""
+
+#: visiondataset/base/templates/userena/email_form.html:18
+#: visiondataset/base/templates/userena/profile_sidebar.html:8
+msgid "Change email"
+msgstr ""
+
+#: visiondataset/base/templates/userena/password_complete.html:4
+msgid "Password changed"
+msgstr ""
+
+#: visiondataset/base/templates/userena/password_complete.html:5
+msgid "Your password has been changed"
+msgstr ""
+
+#: visiondataset/base/templates/userena/password_complete.html:12
+msgid "From now on you can use your new password to signin"
+msgstr ""
+
+#: visiondataset/base/templates/userena/password_form.html:4
+#: visiondataset/base/templates/userena/password_form.html:22
+#: visiondataset/base/templates/userena/profile_sidebar.html:7
+msgid "Change password"
+msgstr ""
+
+#: visiondataset/base/templates/userena/password_form.html:18
+msgid "Change Password"
+msgstr ""
+
+#: visiondataset/base/templates/userena/password_reset_complete.html:4
+msgid "Password reset"
+msgstr ""
+
+#: visiondataset/base/templates/userena/password_reset_complete.html:5
+msgid "Your password has been reset"
+msgstr ""
+
+#: visiondataset/base/templates/userena/password_reset_complete.html:8
+#, python-format
+msgid ""
+"You can now <a href=\"%(signin_url)s\">signin</a> with your new password."
+msgstr ""
+
+#: visiondataset/base/templates/userena/password_reset_confirm_form.html:4
+#: visiondataset/base/templates/userena/password_reset_confirm_form.html:13
+#: visiondataset/base/templates/userena/password_reset_form.html:4
+msgid "Reset password"
+msgstr ""
+
+#: visiondataset/base/templates/userena/password_reset_confirm_form.html:9
+#: visiondataset/base/templates/userena/password_reset_form.html:9
+msgid "Reset Password"
+msgstr ""
+
+#: visiondataset/base/templates/userena/password_reset_done.html:4
+#: visiondataset/base/templates/userena/password_reset_done.html:5
+msgid "Password reset email sent"
+msgstr ""
+
+#: visiondataset/base/templates/userena/password_reset_done.html:8
+msgid ""
+"An e-mail has been sent to you which explains how to reset your password."
+msgstr ""
+
+#: visiondataset/base/templates/userena/password_reset_form.html:13
+msgid "Send password"
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_detail.html:4
+#, python-format
+msgid "%(username)s's profile."
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_detail.html:16
+msgid "Your mugshot"
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_detail.html:20
+msgid "Name"
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_detail.html:24
+msgid "Email"
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_detail.html:28
+msgid "Age"
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_detail.html:32
+msgid "Website"
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_detail.html:36
+msgid "Location"
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_detail.html:40
+msgid "About me"
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_form.html:4
+msgid "Account setup"
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_form.html:18
+msgid "Edit Profile"
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_form.html:21
+msgid "Save changes"
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_list.html:4
+msgid "Profiles"
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_list.html:21
+msgid "previous"
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_list.html:25
+#, python-format
+msgid ""
+"\n"
+"      Page %(page)s of %(num_pages)s\n"
+"      "
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_list.html:31
+msgid "next"
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_sidebar.html:5
+msgid "View profile"
+msgstr ""
+
+#: visiondataset/base/templates/userena/profile_sidebar.html:6
+msgid "Edit details"
+msgstr ""
+
+#: visiondataset/base/templates/userena/signin_form.html:4
+#: visiondataset/base/templates/userena/signin_form.html:10
+#: visiondataset/base/templates/userena/signin_form.html:28
+msgid "Signin"
+msgstr ""
+
+#: visiondataset/base/templates/userena/signin_form.html:29
+msgid "Forgot your password?"
+msgstr ""
+
+#: visiondataset/base/templates/userena/signout.html:4
+msgid "Signed out"
+msgstr ""
+
+#: visiondataset/base/templates/userena/signout.html:5
+msgid "You have been signed out"
+msgstr ""
+
+#: visiondataset/base/templates/userena/signout.html:8
+msgid "You have been signed out. Till we meet again."
+msgstr ""
+
+#: visiondataset/base/templates/userena/signup_complete.html:4
+msgid "Signup almost done!"
+msgstr ""
+
+#: visiondataset/base/templates/userena/signup_complete.html:6
+#: visiondataset/base/templates/userena/signup_form.html:4
+#: visiondataset/base/templates/userena/signup_form.html:10
+#: visiondataset/base/templates/userena/signup_form.html:28
+msgid "Signup"
+msgstr ""
+
+#: visiondataset/base/templates/userena/signup_complete.html:9
+msgid "Thank you for signing up with us!"
+msgstr ""
+
+#: visiondataset/base/templates/userena/signup_complete.html:12
+msgid ""
+"You have been sent an e-mail with an activation link to the supplied email."
+msgstr ""
+
+#: visiondataset/base/templates/userena/signup_complete.html:13
+#, python-format
+msgid ""
+"We will store your signup information for %(userena_activation_days)s days "
+"on our server. "
+msgstr ""
+
+#: visiondataset/base/templates/userena/signup_complete.html:15
+msgid "You can now use the supplied credentials to signin."
+msgstr ""
+
+#: visiondataset/base/templates/userena/emails/activation_email_message.txt:2
+#: visiondataset/base/templates/userena/emails/confirmation_email_message_new.txt:2
+#: visiondataset/base/templates/userena/emails/confirmation_email_message_old.txt:2
+#, python-format
+msgid "Dear %(username)s,"
+msgstr ""
+
+#: visiondataset/base/templates/userena/emails/activation_email_message.txt:4
+#, python-format
+msgid "Thank you for signing up at %(site)s."
+msgstr ""
+
+#: visiondataset/base/templates/userena/emails/activation_email_message.txt:6
+msgid "To activate your account you should click on the link below:"
+msgstr ""
+
+#: visiondataset/base/templates/userena/emails/activation_email_message.txt:10
+#: visiondataset/base/templates/userena/emails/confirmation_email_message_new.txt:12
+#: visiondataset/base/templates/userena/emails/confirmation_email_message_old.txt:8
+#: visiondataset/base/templates/userena/emails/password_reset_message.txt:14
+msgid "Thanks for using our site!"
+msgstr ""
+
+#: visiondataset/base/templates/userena/emails/activation_email_message.txt:12
+#: visiondataset/base/templates/userena/emails/confirmation_email_message_new.txt:14
+#: visiondataset/base/templates/userena/emails/confirmation_email_message_old.txt:10
+#: visiondataset/base/templates/userena/emails/password_reset_message.txt:16
+msgid "Sincerely"
+msgstr ""
+
+#: visiondataset/base/templates/userena/emails/activation_email_subject.txt:2
+#, python-format
+msgid "Your signup at %(site)s."
+msgstr ""
+
+#: visiondataset/base/templates/userena/emails/confirmation_email_message_new.txt:4
+#, python-format
+msgid "You requested a change of your email address at %(site)s."
+msgstr ""
+
+#: visiondataset/base/templates/userena/emails/confirmation_email_message_new.txt:7
+msgid "Please confirm this email address by clicking on the link below:"
+msgstr ""
+
+#: visiondataset/base/templates/userena/emails/confirmation_email_message_old.txt:4
+#, python-format
+msgid "There was a request to change your email address at %(site)s."
+msgstr ""
+
+#: visiondataset/base/templates/userena/emails/confirmation_email_message_old.txt:6
+#, python-format
+msgid ""
+"An email has been send to %(new_email)s which contains a verification link. "
+"Click on the link in this email to activate it."
+msgstr ""
+
+#: visiondataset/base/templates/userena/emails/confirmation_email_subject_new.txt:2
+#, python-format
+msgid "Email verification for %(site)s."
+msgstr ""
+
+#: visiondataset/base/templates/userena/emails/confirmation_email_subject_old.txt:2
+#, python-format
+msgid "A request to change your email address is made at %(site)s."
+msgstr ""
+
+#: visiondataset/base/templates/userena/emails/password_reset_message.txt:2
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset\n"
+"for your user account at %(site_name)s"
+msgstr ""
+
+#: visiondataset/base/templates/userena/emails/password_reset_message.txt:5
+msgid "Please go to the following page and choose a new password:"
+msgstr ""
+
+#: visiondataset/base/templates/userena/emails/password_reset_message.txt:10
+#, python-format
+msgid ""
+"\n"
+"Your username, in case you've forgotten: %(username)s\n"
+msgstr ""
+
+#: visiondataset/datasets/forms.py:23
+msgid "User or Email"
+msgstr ""
+
+#: visiondataset/datasets/models.py:29 visiondataset/datasets/models.py:109
+msgid "created"
+msgstr ""
+
+#: visiondataset/datasets/models.py:34
+msgid "View Edit Information and Colaborate with Dataset"
+msgstr ""
+
+#: visiondataset/datasets/models.py:67
+msgid "slug"
+msgstr ""
+
+#: visiondataset/datasets/models.py:111
+msgid "file"
+msgstr ""
+
+#: visiondataset/datasets/models.py:113
+msgid "Type"
+msgstr ""
+
+#: visiondataset/datasets/views.py:123 visiondataset/datasets/views.py:131
+#: visiondataset/datasets/views.py:155 visiondataset/datasets/views.py:165
+msgid "You can't view this"
+msgstr ""
+
+#: visiondataset/datasets/views.py:140
+msgid "No such user: "
+msgstr ""
+
+#: visiondataset/datasets/views.py:143
+msgid "New colaborator: "
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/colaborators_list_snippet.html:3
+#: visiondataset/datasets/templates/datasets/dataset_colaborators.html:26
+msgid "Colaborators"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/dataset_colaborators.html:15
+#: visiondataset/datasets/templates/datasets/datum_form.html:7
+#: visiondataset/datasets/templates/datasets/datum_list.html:7
+msgid "Actions"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/dataset_colaborators.html:16
+#: visiondataset/datasets/templates/datasets/datum_list.html:14
+msgid "Manage colaborators"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/dataset_colaborators.html:17
+#: visiondataset/datasets/templates/datasets/dataset_form.html:9
+#: visiondataset/datasets/templates/datasets/datum_detail.html:11
+#: visiondataset/datasets/templates/datasets/datum_form.html:9
+#: visiondataset/datasets/templates/datasets/datum_list.html:17
+msgid "Back"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/dataset_colaborators.html:36
+msgid "View"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/dataset_colaborators.html:40
+msgid "Remove"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/dataset_colaborators.html:45
+msgid "Remove colaborator?"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/dataset_colaborators.html:48
+msgid "Do you really want to remove colaboration permission from"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/dataset_colaborators.html:71
+msgid "Add"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/dataset_form.html:7
+#: visiondataset/datasets/templates/datasets/dataset_list.html:6
+msgid "Dataset actions"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/dataset_form.html:8
+#: visiondataset/datasets/templates/datasets/dataset_form.html:13
+#: visiondataset/datasets/templates/datasets/dataset_form.html:16
+#: visiondataset/datasets/templates/datasets/dataset_list.html:8
+msgid "Create dataset"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/dataset_form_snippet.html:14
+#: visiondataset/datasets/templates/datasets/datum_form_snippet.html:20
+msgid "Save"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/dataset_list.html:7
+msgid "List datasets"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/dataset_list.html:14
+msgid "Datasets"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/datum_detail.html:10
+msgid "Download"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/datum_detail.html:20
+msgid "File"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/datum_detail.html:24
+msgid "Posted by"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/datum_detail.html:32
+#: visiondataset/datasets/templates/datasets/datum_list.html:50
+msgid "Comments"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/datum_form.html:8
+#: visiondataset/datasets/templates/datasets/datum_form.html:16
+#: visiondataset/datasets/templates/datasets/datum_list.html:12
+msgid "Add datum"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/datum_form.html:13
+msgid "Add Datum "
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/datum_list.html:10
+msgid "View dataset"
+msgstr ""
+
+#: visiondataset/datasets/templates/datasets/datum_list.html:16
+msgid "Download Dataset"
+msgstr ""
