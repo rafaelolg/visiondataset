@@ -13,11 +13,14 @@ from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 from guardian.shortcuts import get_users_with_perms
 from visiondataset.base.models import UserProfile
+from StringIO import StringIO
+from zipfile import ZipFile
 
 DEFAULT_DTYPE_TEMPLATE='''<a href="${file_url}">${file_name}</a> '''
 DEFAULT_DTYPE_CREATE_THUMBNAIL='''convert -resize 160x $file_name $thumbnail_file_name'''
-
 LOGGER = logging.getLogger(__name__)
+
+
 
 class Dataset(models.Model):
     """Set of datums"""
@@ -44,6 +47,19 @@ class Dataset(models.Model):
         users = get_users_with_perms(self)
         profiles = UserProfile.objects.filter(user__in=users)
         return profiles
+
+    def to_zip(self):
+        """Creates a zip file (StringIO) with the datums of this dataset"""
+        inmemory = StringIO()
+        zipf = ZipFile(inmemory, 'w')
+        for d in self.datum_set.filter():
+            zipf.write(d.package.path, d.file_name())
+        zipf.close()
+        inmemory.seek(0)
+        return inmemory
+
+
+
 
 class DataType(models.Model):
     """docstring"""

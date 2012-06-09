@@ -13,6 +13,7 @@
     {%if dataset.owner == user or user.is_superuser %}
     <li class=""><a href="{% url datasets_dataset_colaborators dataset.id %}">{%trans "Manage colaborators"%}</a></li>
     {%endif%}
+    <li class=""><a href="{% url datasets_dataset_zip dataset.id %}">{%trans "Download Dataset"%}</a></li>
     <li class=""><a href="{% url datasets_dataset_list %}">{%trans "Back"%}</a></li>
 </ul>
 {%endblock%}

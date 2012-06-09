@@ -3,7 +3,7 @@ import logging
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import Http404, HttpResponseRedirect, HttpResponseForbidden
+from django.http import Http404, HttpResponseRedirect, HttpResponseForbidden, HttpResponse
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView, DetailView, CreateView, \
@@ -14,6 +14,7 @@ from django.template import RequestContext
 from guardian.shortcuts import get_objects_for_user, get_users_with_perms,\
         assign, remove_perm
 from django.contrib import messages
+from django.template.defaultfilters import slugify
 
 from sendfile import sendfile
 
@@ -70,7 +71,7 @@ class DatasetDetail(PermissionRequiredMixin, LoginRequiredMixin, ListView):
         context['next'] = self.get_object().get_absolute_url()
         return context
 
-
+#TODO: colcar permissao nisso
 class DatumDetail(LoginRequiredMixin, DetailView):
     context_object_name = "datum"
     model = Datum
@@ -156,3 +157,13 @@ def remove_colaborators(request, dataset_id, colaborator_id):
     remove_perm(DATASET_COLABORATE_PERMISSION, colaborator, dataset)
     return redirect('datasets_dataset_colaborators', dataset_id=dataset_id)
 
+
+@login_required
+def dataset_as_zip(request, pk):
+    dataset = get_object_or_404(Dataset, pk=pk)
+    if not request.user.has_perm('dataset_colaborate', dataset):
+        return HttpResponseForbidden(_("You can't view this"));
+    response = HttpResponse(mimetype="application/zip")
+    response["Content-Disposition"] = "attachment; filename=%s.zip"%slugify(dataset.name)
+    response.write(dataset.to_zip().read())
+    return response
