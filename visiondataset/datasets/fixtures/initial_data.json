@@ -3,7 +3,7 @@
     "pk": 1, 
     "model": "datasets.datatype", 
     "fields": {
-      "create_thumbnail_command": "convert -resize 160 '$file_name' '$thumbnail_file_name'", 
+      "create_thumbnail_command": "convert -thumbnail '160>' '$file_name' '$thumbnail_file_name'", 
       "name": "image", 
       "template_to_view": "<img src=\"$file_url\"/>", 
       "slug": "image"
