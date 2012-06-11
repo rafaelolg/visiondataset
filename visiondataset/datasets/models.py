@@ -16,6 +16,8 @@ from visiondataset.base.models import UserProfile
 from StringIO import StringIO
 from zipfile import ZipFile
 
+from util import base_name
+
 DEFAULT_DTYPE_TEMPLATE='''<a href="${file_url}">${file_name}</a> '''
 DEFAULT_DTYPE_CREATE_THUMBNAIL='''convert -resize 160x $file_name $thumbnail_file_name'''
 LOGGER = logging.getLogger(__name__)
@@ -58,6 +60,21 @@ class Dataset(models.Model):
         inmemory.seek(0)
         return inmemory
 
+    def add_from_zip(self, zip_file, dtype, owner):
+        """Add files of zip_file with dtype type to this Dataset"""
+        from django.core.files.base import ContentFile
+        zipf = ZipFile(zip_file, 'r')
+        names = zipf.namelist()
+        for name in names:
+            if name.startswith('__') or name.startswith('.'): # do not process meta files
+                continue
+            LOGGER.debug('Processing %s' % name)
+            data = zipf.read(name)
+            d=Datum(dataset=self, owner=owner, name=name, dtype = dtype)
+            d.package.save(name,ContentFile(data))
+            d.save()
+        zipf.close()
+
 
 
 
@@ -85,7 +102,7 @@ class DataType(models.Model):
             os.mkdir(destination_dir)
         except:
             pass
-        basename = os.path.basename(absolut_file_name).split('.')[-2] + '.png'
+        basename = base_name(absolut_file_name) + '.png'
         thumbnail_file_name = os.path.join(destination_dir,basename)
         if not os.path.exists(thumbnail_file_name):
             template = string.Template(self.create_thumbnail_command.strip())
@@ -98,6 +115,7 @@ class DataType(models.Model):
 
 protected_storage = FileSystemStorage(location=settings.SENDFILE_ROOT)
 def get_package_file_path(instance, filename, prefix='datum'):
+    #TODO: isso tem que ser mais robusto
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
     return os.path.join(prefix,filename)
@@ -138,6 +156,7 @@ class Datum(models.Model):
         return url
 
     def file_name(self):
+        #TODO:isso tem que ser mais robusto
         return slugify(self.name) + '.' + self.package.name.split('.')[-1]
 
     def file_render(self):

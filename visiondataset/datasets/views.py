@@ -21,7 +21,7 @@ from sendfile import sendfile
 from models import Dataset, Datum, DataType
 from visiondataset.base.view_mixins import LoginRequiredMixin, PermissionRequiredMixin
 from forms import DatasetModelForm, DatumModelForm, ColaboratorForm
-
+from util import base_name
 
 DATASET_COLABORATE_PERMISSION='dataset_colaborate'
 
@@ -92,14 +92,22 @@ class DatumCreate(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
+        if form.cleaned_data['package'].content_type in ('application/zip', 'application/x-zip'):
+            return self.process_zip(form)
         self.object = form.save(commit=False)
         self.object.dataset_id = self.kwargs['dataset_id']
         self.object.owner = self.request.user
-        self.object.name = self.object.package.name.split('/')[-1].split('.')[0]
+        self.object.name = self.object.package.name
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
-
+    def process_zip(self, form):
+        zfile = form.cleaned_data['package']
+        dataset = get_object_or_404(Dataset, pk=self.kwargs['dataset_id'])
+        owner = self.request.user
+        dtype = form.cleaned_data['dtype']
+        dataset.add_from_zip(zfile, dtype, owner)
+        return HttpResponseRedirect(dataset.get_absolute_url())
 
 def datum_file(request, pk, dataset_id=None):
     datum = get_object_or_404(Datum, pk=pk)
