@@ -7,14 +7,15 @@
     <li class="nav-header">{%trans "Actions" %}</li>
     <li class="active">
     <a href="{% url datasets_dataset_detail dataset.id %}">
-        {%trans "View dataset"%} {{dataset.name}}</a>
+        <i class="icon-th-large icon-white"></i>{%trans "View dataset"%} {{dataset.name}}</a>
     </li>
-    <li class=""><a href="{% url datasets_datum_create dataset.id %}">{%trans "Add datum"%}</a></li>
+    <li class=""><a href="{% url datasets_datum_create dataset.id %}"><i class="icon-plus"></i>{%trans "Add datum"%}</a></li>
     {%if dataset.owner == user or user.is_superuser %}
-    <li class=""><a href="{% url datasets_dataset_colaborators dataset.id %}">{%trans "Manage colaborators"%}</a></li>
+    <li class=""><a href="{% url datasets_dataset_colaborators dataset.id %}"><i
+            class="icon-user"></i>{%trans "Manage colaborators"%}</a></li>
     {%endif%}
-    <li class=""><a href="{% url datasets_dataset_zip dataset.id %}">{%trans "Download Dataset"%}</a></li>
-    <li class=""><a href="{% url datasets_dataset_list %}">{%trans "Back"%}</a></li>
+    <li class=""><a href="{% url datasets_dataset_zip dataset.id %}"><i class="icon-download"></i>{%trans "Download Dataset"%}</a></li>
+    <li class=""><a href="{% url datasets_dataset_list %}"><i class="icon-arrow-left"></i>{%trans "Back"%}</a></li>
 </ul>
 {%endblock%}
 
@@ -35,7 +36,7 @@
         <div class='thumbnail'>
             <div class="datum-image">
                 <p>
-                <strong class="datum-name">{{ d.name }}</strong>
+                <strong class="datum-name">{{ d.name|truncatechars:21  }}</strong>
                 </p>
                 <img src="{{d.thumbnail_url}}"/>
             </div>
@@ -46,6 +47,7 @@
         {% endfor %}
     </ul>
 </div>
+{% include "pagination.html" %}
 {%include 'datasets/colaborators_list_snippet.html' %}
 <h4>{% trans "Comments" %}</h4>
 <div class="comments">

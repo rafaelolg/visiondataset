@@ -5,8 +5,8 @@
 {%block sidebar%}
 <ul class="nav nav-list">
     <li class="nav-header">{%trans "Actions" %}</li>
-    <li class="active"><a href="{% url datasets_datum_create dataset_id %}">{%trans "Add datum"%}</a></li>
-    <li class=""><a href="{% url datasets_dataset_detail dataset_id %}">{%trans "Back"%}</a></li>
+    <li class="active"><a href="{% url datasets_datum_create dataset_id %}"><i class="icon-plus icon-white"></i>{%trans "Add datum"%}</a></li>
+    <li class=""><a href="{% url datasets_dataset_detail dataset_id %}"><i class="icon-arrow-left"></i>{%trans "Back"%}</a></li>
 </ul>
 {%endblock%}
 
@@ -14,5 +14,10 @@
 
 {% block content %}
 <h1>{%trans "Add datum"%}</h1>
+<div class="alert alert-info">
+    <strong>{%trans "Tip!"%}</strong>
+    {%blocktrans%} If you upload a zip file, it will be extracted and for each file a
+    datum will be created. {%endblocktrans%}
+</div>
 {% include 'datasets/datum_form_snippet.html' %}
 {% endblock %}

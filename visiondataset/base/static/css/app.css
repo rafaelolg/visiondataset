@@ -49,6 +49,7 @@ h4
 }
 .datum-image {
     min-height: 150px;
+    word-wrap: break-word;
 }
 a.thumb-link {
     color: #333333;

@@ -4,8 +4,8 @@
 {%block sidebar%}
 <ul class="nav nav-list">
     <li class="nav-header">{%trans "Dataset actions" %}</li>
-    <li class="active"><a href="{% url datasets_dataset_list %}">{%trans "List datasets"%}</a></li>
-    <li class=><a href="{% url datasets_dataset_create %}">{%trans "Create dataset"%}</a></li>
+    <li class="active"><a href="{% url datasets_dataset_list %}"><i class="icon-th"></i>{%trans "List datasets"%}</a></li>
+    <li class=><a href="{% url datasets_dataset_create %}"><i class="icon-plus"></i>{%trans "Create dataset"%}</a></li>
 </ul>
 {%endblock%}
 
