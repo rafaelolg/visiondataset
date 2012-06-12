@@ -2,6 +2,10 @@ import uuid
 import os
 import string
 import logging
+from StringIO import StringIO
+from zipfile import ZipFile
+import mimetypes
+import re
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -13,8 +17,6 @@ from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 from guardian.shortcuts import get_users_with_perms
 from visiondataset.base.models import UserProfile
-from StringIO import StringIO
-from zipfile import ZipFile
 
 from util import base_name
 
@@ -68,6 +70,9 @@ class Dataset(models.Model):
         for name in names:
             if name.startswith('__') or name.startswith('.'): # do not process meta files
                 continue
+            if not dtype.is_acceptable(name):
+                LOGGER.info("dtype doesn't  accept"+ name)
+                continue
             LOGGER.debug('Processing %s' % name)
             data = zipf.read(name)
             d=Datum(dataset=self, owner=owner, name=name, dtype = dtype)
@@ -84,6 +89,7 @@ class DataType(models.Model):
     slug = AutoSlugField(_('slug'), populate_from='name')
     template_to_view = models.TextField(default=DEFAULT_DTYPE_TEMPLATE)
     create_thumbnail_command = models.TextField(default=DEFAULT_DTYPE_CREATE_THUMBNAIL)
+    acceptable_mimtypes_regex = models.CharField(max_length=256, default=r'.*')
 
     def __unicode__(self):
         return self.name
@@ -112,6 +118,15 @@ class DataType(models.Model):
 
             os.system(cmd)
         return thumbnail_file_name
+
+    def is_acceptable(self, filename):
+        (typ,dummy) = mimetypes.guess_type(filename)
+        if typ:
+            return re.match(self.acceptable_mimtypes_regex, typ)
+        else:
+            return False
+
+
 
 protected_storage = FileSystemStorage(location=settings.SENDFILE_ROOT)
 def get_package_file_path(instance, filename, prefix='datum'):

@@ -92,14 +92,21 @@ class DatumCreate(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
+        dtype = form.cleaned_data['dtype']
         if form.cleaned_data['package'].content_type in ('application/zip', 'application/x-zip'):
-            return self.process_zip(form)
-        self.object = form.save(commit=False)
-        self.object.dataset_id = self.kwargs['dataset_id']
-        self.object.owner = self.request.user
-        self.object.name = self.object.package.name
-        self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
+            if not dtype.is_acceptable(form.cleaned_data['package'].name):
+                return self.process_zip(form)
+        if dtype.is_acceptable(form.cleaned_data['package'].name):
+            self.object = form.save(commit=False)
+            self.object.dataset_id = self.kwargs['dataset_id']
+            self.object.owner = self.request.user
+            self.object.name = self.object.package.name
+            self.object.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            messages.error(self.request, _("Invalid file type: ")+form.cleaned_data['package'].content_type)
+            return self.form_invalid(form)
+
 
     def process_zip(self, form):
         zfile = form.cleaned_data['package']
