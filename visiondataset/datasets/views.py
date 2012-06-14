@@ -18,9 +18,9 @@ from django.template.defaultfilters import slugify
 
 from sendfile import sendfile
 
-from models import Dataset, Datum, DataType
+from models import Dataset, Datum, DataType, DatumAttachment
 from visiondataset.base.view_mixins import LoginRequiredMixin, PermissionRequiredMixin
-from forms import DatasetModelForm, DatumModelForm, ColaboratorForm
+from forms import DatasetModelForm, DatumModelForm, ColaboratorForm, DatumAttachmentForm
 from util import base_name
 
 DATASET_COLABORATE_PERMISSION='dataset_colaborate'
@@ -68,18 +68,44 @@ class DatasetDetail(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(DatasetDetail, self).get_context_data(**kwargs)
         context['dataset'] = self.get_object()
+        #para os comentarios retornarem para a mesma pagina
         context['next'] = self.get_object().get_absolute_url()
         return context
 
-#TODO: colcar permissao nisso
 class DatumDetail(LoginRequiredMixin, DetailView):
     context_object_name = "datum"
     model = Datum
 
+    def dispatch(self, request, *args, **kwargs):
+        self.kwargs = kwargs
+        self.args = args
+        datum = self.get_object()
+        if datum.is_user_allowed(request.user):
+            return super(DatumDetail, self).dispatch(request, *args, **kwargs)
+        else:
+            return HttpResponseForbidden(_("You can't view this"));
+
+
     def get_context_data(self, **kwargs):
         context = super(DatumDetail, self).get_context_data(**kwargs)
-        context['next'] = self.get_object().get_absolute_url()
+        context['attachments'] = self.object.datumattachment_set.all()
+        #para os comentarios retornarem para a mesma pagina
+        context['next'] = self.object.get_absolute_url()
         return context
+
+#TODO:colocar permissao nisso
+class DatumAttachmentDetail(LoginRequiredMixin, DetailView):
+    context_object_name = "attachment"
+    model = DatumAttachment
+
+    def get_context_data(self, **kwargs):
+        context = super(DatumAttachmentDetail, self).get_context_data(**kwargs)
+        context['dataset_id'] = self.kwargs['dataset_id']
+        context['datum_id'] = self.kwargs['datum_id']
+        #para os comentarios voltarem para a mesma pagina
+        context['next'] = self.object.get_absolute_url()
+        return context
+
 
 #TODO:colocar permissao nisso
 class DatumCreate(LoginRequiredMixin, CreateView):
@@ -116,6 +142,15 @@ class DatumCreate(LoginRequiredMixin, CreateView):
         dataset.add_from_zip(zfile, dtype, owner)
         return HttpResponseRedirect(dataset.get_absolute_url())
 
+@login_required
+def datum_attachment_file(request, pk, datum_id=None, dataset_id=None):
+    datum = get_object_or_404(Datum, pk=datum_id)
+    attachment = get_object_or_404(DatumAttachment, pk=pk)
+    filename = attachment.original_name
+    absolut_file_path = attachment.package.path
+    return datum_send_file(request, filename, absolut_file_path, datum)
+
+@login_required
 def datum_file(request, pk, dataset_id=None):
     datum = get_object_or_404(Datum, pk=pk)
     filename = datum.file_name()
@@ -123,6 +158,7 @@ def datum_file(request, pk, dataset_id=None):
     return datum_send_file(request, filename, absolut_file_path, datum)
 
 
+@login_required
 def datum_thumbnail(request, pk, dataset_id=None):
     datum = get_object_or_404(Datum, pk=pk)
     filename = 'thumb_' + datum.file_name()
@@ -182,3 +218,22 @@ def dataset_as_zip(request, pk):
     response["Content-Disposition"] = "attachment; filename=%s.zip"%slugify(dataset.name)
     response.write(dataset.to_zip().read())
     return response
+
+
+class DatumAttachmentCreate(LoginRequiredMixin, CreateView):
+    model=DatumAttachment
+    form_class = DatumAttachmentForm
+
+    def get_context_data(self, **kwargs):
+        context = super(DatumAttachmentCreate, self).get_context_data(**kwargs)
+        context['dataset_id'] = self.kwargs['dataset_id']
+        context['datum_id'] = self.kwargs['datum_id']
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.datum_id = self.kwargs['datum_id']
+        self.object.owner = self.request.user
+        self.object.original_name = self.object.package.name
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())

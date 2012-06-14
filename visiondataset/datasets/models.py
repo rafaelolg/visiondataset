@@ -129,11 +129,13 @@ class DataType(models.Model):
 
 
 protected_storage = FileSystemStorage(location=settings.SENDFILE_ROOT)
-def get_package_file_path(instance, filename, prefix='datum'):
-    #TODO: isso tem que ser mais robusto
-    ext = filename.split('.')[-1]
-    filename = "%s.%s" % (uuid.uuid4(), ext)
-    return os.path.join(prefix,filename)
+def get_package_file_path(prefix):
+    def with_prefix(instance, filename):
+        #TODO: isso tem que ser mais robusto
+        ext = filename.split('.')[-1]
+        filename = "%s.%s" % (uuid.uuid4(), ext)
+        return os.path.join(prefix, filename)
+    return with_prefix
 
 class Datum(models.Model):
     """Data element"""
@@ -141,7 +143,7 @@ class Datum(models.Model):
     owner = models.ForeignKey(User, related_name='+')
     created = CreationDateTimeField(_('created'))
     name = models.CharField(max_length=256)
-    package = models.FileField(_("file"), upload_to=get_package_file_path, max_length=100,
+    package = models.FileField(_("file"), upload_to=get_package_file_path('datum'), max_length=100,
             storage=protected_storage)
     dtype = models.ForeignKey(DataType,verbose_name= _("Type"), related_name='+',
             blank=False, default=1)
@@ -181,3 +183,39 @@ class Datum(models.Model):
 
     def get_thumbnail_file_path(self):
         return self.dtype.create_thumbnail(self.package.path,'datum_thumbnails')
+
+class DatumAttachment(models.Model):
+    """Attachment with possible results of processing the datum"""
+    owner = models.ForeignKey(User, related_name='+')
+    datum = models.ForeignKey(Datum)
+    name = models.CharField(max_length=256)
+    package = models.FileField(_("file"), upload_to=get_package_file_path('attachment'), max_length=100,
+            storage=protected_storage)
+    original_name = models.CharField(max_length=256)
+    meta_description = models.TextField(blank=True)
+    created = CreationDateTimeField(_('created'))
+
+    class Meta:
+        get_latest_by = 'created'
+        ordering = ('name','-created')
+
+    def __unicode__(self):
+        return self.name
+
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('datasets_datumattachment_detail' , (), {'dataset_id':
+            self.datum.dataset_id, 'datum_id': self.datum_id, 'pk': self.pk})
+
+
+    def is_user_allowed(self, user):
+        allowed = self.owner == user
+        if not allowed:
+            allowed = user.has_perm('dataset_colaborate', self)
+        return allowed
+
+    def file_url(self):
+        return reverse('datasets_datumattachment_file',
+                kwargs={'dataset_id':self.datum.dataset_id, 'datum_id':self.datum_id, 'pk':self.pk})
+

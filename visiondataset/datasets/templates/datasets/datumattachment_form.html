@@ -1,0 +1,18 @@
+{% extends "base_with_sidebar.html" %}
+{% load i18n %}
+
+
+{%block sidebar%}
+<ul class="nav nav-list">
+    <li class="nav-header">{%trans "Actions" %}</li>
+    <li class="active"><a href="{% url datasets_datumattachment_create dataset_id datum_id %}"><i class="icon-plus icon-white"></i>{%trans "Add datum attachment"%}</a></li>
+    <li class=""><a href="{% url datasets_datum_detail dataset_id=dataset_id pk=datum_id %}"><i class="icon-arrow-left"></i>{%trans "Back"%}</a></li>
+</ul>
+{%endblock%}
+
+{% block title %}{%trans "Add Datum Attachment"%}{% endblock title%}
+
+{% block content %}
+<h1>{%trans "Add Datum Attachment"%}</h1>
+{% include 'datasets/datumattachment_form_snippet.html' %}
+{% endblock %}

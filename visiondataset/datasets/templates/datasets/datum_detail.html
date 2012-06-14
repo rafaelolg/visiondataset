@@ -6,33 +6,78 @@
 
 {%block sidebar%}
 <ul class="nav nav-list">
-    <li class=""><a href="{# url datasets_dataset_create #}">{%trans "Delete datum"%}</a></li>
-    <li class=""><a href="{{ datum.file_url }}">{%trans "Download"%}</a></li>
-    <li class=""><a href="{%url datasets_dataset_detail  pk=datum.dataset.pk %}">{%trans "Back"%}</a></li>
+    <li class=""><a href="{# url datasets_dataset_create #}"><i class="icon-remove"></i>{%trans "Delete datum"%}</a></li>
+    <li class=""><a href="{{ datum.file_url }}"><i class="icon-download"></i>{%trans "Download"%}</a></li>
+    <li class=""><a href="{%url datasets_datumattachment_create  dataset_id=datum.dataset.pk datum_id=datum.pk %}"><i class="icon-plus"></i>{%trans "Add Attachment"%}</a></li>
+    <li class=""><a href="{%url datasets_dataset_detail  pk=datum.dataset.pk %}"><i class="icon-arrow-left"></i>{%trans "Back"%}</a></li>
 </ul>
 {%endblock%}
 
 
 {% block content %}
-<div class='datum-description'>
-    <h2>{{datum.name}}</h2>
-    <p>
-    <h4>{%trans "File"%}</h4>
-    {{datum.file_render|safe}}
-    </p>
-    <p>
-    <h4>{%trans "Posted by"%}</h4>
-    <a href='#{% url userena_profile_detail datum.owner.username %}'>
-    <img src='{{datum.owner.user_profile.get_mugshot_url}}' alt='{{datum.owner.user_profile.get_full_name_or_username}} mugshot'/>     
-    {{datum.owner.user_profile.get_full_name_or_username}}
-    </a>
 
-    </p>
+<div class="tabbable"> <!-- Only required for left/right tabs -->
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab1" data-toggle="tab">{%trans "Details"%}</a></li>
+        <li><a href="#tab2" data-toggle="tab">{%trans "Attachments"%}</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab1">
+            <div class='datum-description'>
+                <h2>{{datum.name}}</h2>
+                <p>
+                <h4>{%trans "File"%}</h4>
+                {{datum.file_render|safe}}
+                </p>
+                <p>
+                <h4>{%trans "Submmited by"%}</h4>
+                <a href='{% url userena_profile_detail datum.owner.username %}'>
+                    <img src='{{datum.owner.user_profile.get_mugshot_url}}' alt='{{datum.owner.user_profile.get_full_name_or_username}} mugshot'/>     
+                    {{datum.owner.user_profile.get_full_name_or_username}}
+                </a>
+
+                </p>
+            </div>
+            <h4>{% trans "Comments" %}</h4>
+            <div class="comments">
+                {% render_comment_list for datum %}
+                {% render_comment_form for datum %}
+            </div>
+        </div>
+        <div class="tab-pane" id="tab2">
+            <table class="table table-striped table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>{%trans "Name"%}</th>
+                        <th>{%trans "Submmited By"%}</th>
+                        <th>{%trans "Date"%}</th>
+                        <th>{%trans "Description"%}</th>
+                        <th>{%trans "Actions"%}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in attachments %}
+                    <tr>
+                        <td>{{a.name}}</td>
+                        <td><a href='{% url userena_profile_detail a.owner.username %}'>
+                                {{a.owner.username}}
+                        </a></td>
+                        <td>{{a.created}}</td>
+                        <td>{{a.meta_description}}</td>
+                        <td>
+                            <a class="btn" href="{%url datasets_datumattachment_detail dataset_id=datum.dataset_id datum_id=datum.id pk=a.id%}">{%trans "Detail"%}</a>
+                            <a class="btn" href="{%url datasets_datumattachment_file dataset_id=datum.dataset_id datum_id=datum.id pk=a.id%}">{%trans "Download"%}</a>
+                            <a class="btn btn=danger">{%trans "Remove"%}</a>
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<h4>{% trans "Comments" %}</h4>
-<div class="comments">
-    {% render_comment_list for datum %}
-    {% render_comment_form for datum %}
-</div>
+
+
 
 {% endblock %}
