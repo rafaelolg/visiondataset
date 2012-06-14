@@ -93,10 +93,18 @@ class DatumDetail(LoginRequiredMixin, DetailView):
         context['next'] = self.object.get_absolute_url()
         return context
 
-#TODO:colocar permissao nisso
 class DatumAttachmentDetail(LoginRequiredMixin, DetailView):
     context_object_name = "attachment"
     model = DatumAttachment
+
+    def dispatch(self, request, *args, **kwargs):
+        self.kwargs = kwargs
+        self.args = args
+        datum = get_object_or_404(Datum, pk=kwargs['datum_id'])
+        if datum.is_user_allowed(request.user):
+            return super(DatumAttachmentDetail, self).dispatch(request, *args, **kwargs)
+        else:
+            return HttpResponseForbidden(_("You can't view this"));
 
     def get_context_data(self, **kwargs):
         context = super(DatumAttachmentDetail, self).get_context_data(**kwargs)
@@ -107,10 +115,20 @@ class DatumAttachmentDetail(LoginRequiredMixin, DetailView):
         return context
 
 
-#TODO:colocar permissao nisso
 class DatumCreate(LoginRequiredMixin, CreateView):
     model=Datum
     form_class = DatumModelForm
+
+
+    def dispatch(self, request, *args, **kwargs):
+        self.kwargs = kwargs
+        self.args = args
+        dataset = get_object_or_404(Dataset, pk=kwargs['dataset_id'])
+        if dataset.is_user_allowed(request.user):
+            return super(DatumCreate, self).dispatch(request, *args, **kwargs)
+        else:
+            return HttpResponseForbidden(_("You can't view this"));
+
 
     def get_context_data(self, **kwargs):
         context = super(DatumCreate, self).get_context_data(**kwargs)
@@ -223,6 +241,17 @@ def dataset_as_zip(request, pk):
 class DatumAttachmentCreate(LoginRequiredMixin, CreateView):
     model=DatumAttachment
     form_class = DatumAttachmentForm
+
+
+    def dispatch(self, request, *args, **kwargs):
+        self.kwargs = kwargs
+        self.args = args
+        datum = get_object_or_404(Datum, pk=kwargs['datum_id'])
+        if datum.is_user_allowed(request.user):
+            return super(DatumAttachmentCreate, self).dispatch(request, *args, **kwargs)
+        else:
+            return HttpResponseForbidden(_("You can't view this"));
+
 
     def get_context_data(self, **kwargs):
         context = super(DatumAttachmentCreate, self).get_context_data(**kwargs)

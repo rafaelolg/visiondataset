@@ -47,6 +47,13 @@ class Dataset(models.Model):
     def get_absolute_url(self):
         return ('datasets_dataset_detail',(),{'pk':self.pk})
 
+
+    def is_user_allowed(self, user):
+        allowed = self.owner == user or user.is_staff
+        if not allowed:
+            allowed = user.has_perm('dataset_colaborate', self)
+        return allowed
+
     def colaborators(self):
         users = get_users_with_perms(self)
         profiles = UserProfile.objects.filter(user__in=users)
@@ -160,10 +167,7 @@ class Datum(models.Model):
         return ('datasets_datum_detail',(),{'dataset_id':self.dataset_id, 'pk':self.pk})
 
     def is_user_allowed(self, user):
-        allowed = self.owner == user
-        if not allowed:
-            allowed = user.has_perm('dataset_colaborate', self)
-        return allowed
+        return self.dataset.is_user_allowed(user)
 
     def file_url(self):
         return reverse('datasets_datum_file', kwargs={'dataset_id':self.dataset_id, 'pk':self.pk})
@@ -210,10 +214,7 @@ class DatumAttachment(models.Model):
 
 
     def is_user_allowed(self, user):
-        allowed = self.owner == user
-        if not allowed:
-            allowed = user.has_perm('dataset_colaborate', self)
-        return allowed
+        return self.datum.is_user_allowed(user)
 
     def file_url(self):
         return reverse('datasets_datumattachment_file',
