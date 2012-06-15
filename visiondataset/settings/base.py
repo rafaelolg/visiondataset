@@ -45,6 +45,7 @@ INSTALLED_APPS = [
         'easy_thumbnails',
         'guardian',
         'userena',
+        'djangorestframework',
         ]
 
 # Place bcrypt first in the list, so it will be the default password hashing
