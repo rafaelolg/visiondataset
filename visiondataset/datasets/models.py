@@ -197,6 +197,7 @@ class DatumAttachment(models.Model):
             storage=protected_storage)
     original_name = models.CharField(max_length=256)
     meta_description = models.TextField(blank=True)
+    meta_type = models.TextField(blank=False, default='unknow')
     created = CreationDateTimeField(_('created'))
 
     class Meta:

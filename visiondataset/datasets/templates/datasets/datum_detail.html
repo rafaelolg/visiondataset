@@ -38,11 +38,6 @@
 
                 </p>
             </div>
-            <h4>{% trans "Comments" %}</h4>
-            <div class="comments">
-                {% render_comment_list for datum %}
-                {% render_comment_form for datum %}
-            </div>
         </div>
         <div class="tab-pane" id="tab2">
             <table class="table table-striped table-bordered table-condensed">
@@ -52,6 +47,7 @@
                         <th>{%trans "Submmited By"%}</th>
                         <th>{%trans "Date"%}</th>
                         <th>{%trans "Description"%}</th>
+                        <th>{%trans "Type"%}</th>
                         <th>{%trans "Actions"%}</th>
                     </tr>
                 </thead>
@@ -64,8 +60,8 @@
                         </a></td>
                         <td>{{a.created}}</td>
                         <td>{{a.meta_description}}</td>
+                        <td>{{a.meta_type}}</td>
                         <td>
-                            <a class="btn" href="{%url datasets_datumattachment_detail dataset_id=datum.dataset_id datum_id=datum.id pk=a.id%}">{%trans "Detail"%}</a>
                             <a class="btn" href="{%url datasets_datumattachment_file dataset_id=datum.dataset_id datum_id=datum.id pk=a.id%}">{%trans "Download"%}</a>
                             <a class="btn btn=danger">{%trans "Remove"%}</a>
                         </td>
@@ -75,6 +71,11 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <h4>{% trans "Comments" %}</h4>
+    <div class="comments">
+        {% render_comment_list for datum %}
+        {% render_comment_form for datum %}
     </div>
 </div>
 
