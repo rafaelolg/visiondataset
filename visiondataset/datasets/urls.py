@@ -6,7 +6,8 @@ from views import DatasetList, DatasetCreate, DatasetDetail, \
         remove_colaborators, dataset_as_zip, DatumAttachmentDetail,\
         datum_attachment_file, DatumAttachmentCreate
 
-from api import DatasetsApiView, DatumsApiView, DatumAttachmentsApiView, DatumFileApiView
+from api import DatasetsApiView, DatumsApiView, DatumAttachmentsApiView,\
+        DatumFileApiView, DatumAttachmentFileApiView
 
 urlpatterns = patterns('visiondataset.datasets.views',
         url(r'^$', DatasetList.as_view(), name='datasets_dataset_list'),
@@ -31,6 +32,8 @@ urlpatterns = patterns('visiondataset.datasets.views',
         #WEBSERVICE API
         url(r'^api/?$', DatasetsApiView.as_view(), name='api_dataset_list'),
         url(r'^api/(?P<dataset_id>\d+)/datums/?$', DatumsApiView.as_view(), name='api_datum_list'),
-        url(r'^api/(?P<datum__dataset_id>\d+)/datums/(?P<datum_id>\d+)/file/?$', DatumFileApiView.as_view(), name='api_datum_file'),
+        url(r'^api/(?P<dataset_id>\d+)/datums/(?P<id>\d+)/file/?$', DatumFileApiView.as_view(), name='api_datum_file'),
         url(r'^api/(?P<datum__dataset_id>\d+)/datums/(?P<datum_id>\d+)/attachments/?$', DatumAttachmentsApiView.as_view(), name='api_attachment_list'),
+        url(r'^api/(?P<datum__dataset_id>\d+)/datums/(?P<datum_id>\d+)/attachments/(?P<id>\d+)/file/?$',
+            DatumAttachmentFileApiView.as_view(), name='api_attachment_file'),
 )
