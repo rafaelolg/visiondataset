@@ -2,10 +2,14 @@
 # -*- coding: utf-8 -*-
 from djangorestframework.resources import ModelResource
 from djangorestframework.views import ListOrCreateModelView, InstanceModelView, View
+from djangorestframework.mixins import ListModelMixin
+from djangorestframework.permissions import IsAuthenticated
 from django.core.urlresolvers import reverse
 
 from .models import Dataset, Datum, DatumAttachment
 
+from guardian.shortcuts import get_objects_for_user, get_users_with_perms,\
+        assign, remove_perm
 
 class DatumResource(ModelResource):
     fields = ('name', 'created','type', 'attachments', 'file')
@@ -40,18 +44,33 @@ class DatumFileApiView(View):
 
 class DatumAttachmentResource(ModelResource):
     fields = ('name', 'created')
+    permissions = (IsAuthenticated,)
     model = DatumAttachment
 
+
 class DatasetsApiView(ListOrCreateModelView):
-    """docstring for DatasetApiView"""
+    """List Datasets for the current user"""
     resource = DatasetResource
+    permissions = (IsAuthenticated,)
+
+    def get_queryset(self):
+        queryset = get_objects_for_user(self.request.user, 'dataset_colaborate' , klass=Dataset)
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        import ipdb;ipdb.set_trace()
+        return super(DatasetsApiView, self).get(request, *args, **kwargs)
 
 
 class DatumsApiView(ListOrCreateModelView):
-    """docstring for DatasetApiView"""
+    """List the datums for the given dataset"""
     resource = DatumResource
+    permissions = (IsAuthenticated,)
+
 
 class DatumAttachmentsApiView(ListOrCreateModelView):
-    """docstring for DatasetApiView"""
+    """List and post new Attachments for the given datum of given dataset"""
     resource = DatumAttachmentResource
+    permissions = (IsAuthenticated,)
+
 # api.py
