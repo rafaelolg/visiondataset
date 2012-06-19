@@ -21,7 +21,6 @@ urlpatterns = patterns('visiondataset.datasets.views',
         url(r'^(?P<dataset_id>\d+)/datum/create/?$', DatumCreate.as_view(), name='datasets_datum_create'),
         url(r'^(?P<dataset_id>\d+)/datum/(?P<pk>\d+)/file/?$', datum_file, name='datasets_datum_file'),
         url(r'^(?P<dataset_id>\d+)/datum/(?P<pk>\d+)/thumbnail/?$', datum_thumbnail, name='datasets_datum_thumbnail'),
-        #TODO:
         url(r'^(?P<dataset_id>\d+)/datum/(?P<datum_id>\d+)/attachment/(?P<pk>\d+)/?$',
             DatumAttachmentDetail.as_view(), name='datasets_datumattachment_detail'),
         url(r'^(?P<dataset_id>\d+)/datum/(?P<datum_id>\d+)/attachment/(?P<pk>\d+)/file/?$',
@@ -30,10 +29,9 @@ urlpatterns = patterns('visiondataset.datasets.views',
             DatumAttachmentCreate.as_view(), name='datasets_datumattachment_create'),
         ###############
         #WEBSERVICE API
-        url(r'^api/?$', DatasetsApiView.as_view(), name='api_dataset_list'),
-        url(r'^api/(?P<dataset_id>\d+)/datums/?$', DatumsApiView.as_view(), name='api_datum_list'),
-        url(r'^api/(?P<dataset_id>\d+)/datums/(?P<id>\d+)/file/?$', DatumFileApiView.as_view(), name='api_datum_file'),
-        url(r'^api/(?P<datum__dataset_id>\d+)/datums/(?P<datum_id>\d+)/attachments/?$', DatumAttachmentsApiView.as_view(), name='api_attachment_list'),
-        url(r'^api/(?P<datum__dataset_id>\d+)/datums/(?P<datum_id>\d+)/attachments/(?P<id>\d+)/file/?$',
-            DatumAttachmentFileApiView.as_view(), name='api_attachment_file'),
+        url(r'^api/datasets/?$', DatasetsApiView.as_view(), name='api_dataset_list'),
+        url(r'^api/datasets/(?P<dataset>\d+)/datums/?$', DatumsApiView.as_view(), name='api_datum_list'),
+        url(r'^api/datums/(?P<id>\d+)/file/?$', DatumFileApiView.as_view(), name='api_datum_file'),
+        url(r'^api/datums/(?P<datum>\d+)/attachments/?$', DatumAttachmentsApiView.as_view(), name='api_attachment_list'),
+        url(r'^api/attachments/(?P<id>\d+)/file/?$', DatumAttachmentFileApiView.as_view(), name='api_attachment_file'),
 )
