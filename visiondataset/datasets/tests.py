@@ -11,7 +11,7 @@ from .models import *
 from django.contrib.auth.models import User
 
 class TestDatasetModel(TestCase):
-    fixtures = ['test_data.json',]
+    fixtures = ['tests_data.json',]
     def setUp(self):
         self.d1 = Dataset.objects.get(name='d1')
         self.d2 = Dataset.objects.get(name='d2')
