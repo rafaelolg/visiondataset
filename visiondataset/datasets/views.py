@@ -262,6 +262,18 @@ def remove_colaborators(request, dataset_id, colaborator_id):
     return redirect('datasets_dataset_colaborators', dataset_id=dataset_id)
 
 
+class DatumAttachmentDelete(DeleteView):
+    model = DatumAttachment
+
+    def dispatch(self, request, *args, **kwargs):
+        attachment = get_object_or_404(DatumAttachment, pk=kwargs.get('pk'))
+        datum = get_object_or_404(Datum, pk=kwargs.get('datum_id'))
+        self.success_url = datum.get_absolute_url()
+        if not datum.is_user_allowed(request.user):
+            return HttpResponseForbidden(_("You can't do this"))
+        return super(DatumAttachmentDelete, self).dispatch(request, *args,
+                **kwargs)
+
 ##################EDIT
 @login_required
 def edit_colaborators(request, dataset_id):

@@ -62,8 +62,13 @@
                         <td>{{a.meta_description}}</td>
                         <td>{{a.meta_type}}</td>
                         <td>
-                            <a class="btn" href="{%url datasets_datumattachment_file dataset_id=datum.dataset_id datum_id=datum.id pk=a.id%}">{%trans "Download"%}</a>
-                            <a class="btn btn=danger">{%trans "Remove"%}</a>
+                            <a class="btn" href="{%url datasets_datumattachment_file dataset_id=datum.dataset_id datum_id=datum.id pk=a.id%}">
+                                {%trans "Download"%}</a>
+                            <a class="btn btn-danger" data-toggle="modal"
+                                data-target="#modal_remove_attachment_{{a.id}}"
+                                href='{%url datasets_datumattachment_delete dataset_id=datum.dataset_id datum_id=datum.id pk=a.id%}'>
+                                <i class="icon-remove"></i>{%trans "Remove"%}</a>
+                            <div id="modal_remove_attachment_{{a.id}}"></div>
                         </td>
                     </tr>
 
@@ -78,7 +83,12 @@
         {% render_comment_form for datum %}
     </div>
 </div>
-
-
-
 {% endblock %}
+{% block extra_js%}
+<script>
+    $("a[data-toggle=modal]").click(function (e) {
+        lv_target = $(this).attr('data-target')
+        lv_url = $(this).attr('href')
+        $(lv_target).load(lv_url)})
+</script>
+{%endblock%}

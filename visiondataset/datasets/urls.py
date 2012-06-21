@@ -4,7 +4,7 @@ from django.conf.urls.defaults import url, patterns
 from views import DatasetList, DatasetCreate, DatasetDetail, DatumDetail, \
     DatumCreate, datum_file, datum_thumbnail, edit_colaborators, \
     remove_colaborators, dataset_as_zip, DatumAttachmentDetail, \
-    datum_attachment_file, DatumAttachmentCreate
+    datum_attachment_file, DatumAttachmentCreate, DatumAttachmentDelete
 
 from api import DatasetsApiView, DatumsApiView, DatumAttachmentsApiView, \
     DatumFileApiView, DatumAttachmentFileApiView
@@ -31,10 +31,16 @@ urlpatterns = patterns(
     url(r'^(?P<dataset_id>\d+)/datum/(?P<datum_id>\d+)/attachment/(?P<pk>\d+)/?$',
         DatumAttachmentDetail.as_view(),
         name='datasets_datumattachment_detail'),
+    url(r'^(?P<dataset_id>\d+)/datum/(?P<datum_id>\d+)/attachment/(?P<pk>\d+)/delete/?$',
+        DatumAttachmentDelete.as_view(),
+        name='datasets_datumattachment_delete'),
     url(r'^(?P<dataset_id>\d+)/datum/(?P<datum_id>\d+)/attachment/(?P<pk>\d+)/file/?$',
         datum_attachment_file, name='datasets_datumattachment_file'),
     url(r'^(?P<dataset_id>\d+)/datum/(?P<datum_id>\d+)/attachment/create/?$',
         DatumAttachmentCreate.as_view(), name='datasets_datumattachment_create'),
+    ######
+    ####API
+    ######
     url(r'^api/datasets/?$', DatasetsApiView.as_view(), name='api_dataset_list'),
     url(r'^api/datasets/(?P<dataset>\d+)/datums/?$', DatumsApiView.as_view(),
         name='api_datum_list'),
