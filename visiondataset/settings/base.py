@@ -38,15 +38,17 @@ INSTALLED_APPS = [
         'south',
         # Third-party apps, patches, fixes
         'django_extensions',
-        'commonware.response.cookies',
+        #'commonware.response.cookies',
         'debug_toolbar',
-        'debug_toolbar_user_panel',
+        #'debug_toolbar_user_panel',
         'djcelery',
         'easy_thumbnails',
         'guardian',
         'userena',
         'djangorestframework',
         ]
+
+MESSAGE_STORAGE='django.contrib.messages.storage.session.SessionStorage'
 
 # Place bcrypt first in the list, so it will be the default password hashing
 # mechanism
@@ -122,9 +124,9 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'commonware.middleware.FrameOptionsHeader',
+    #'commonware.middleware.FrameOptionsHeader',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'userena.middleware.UserenaLocaleMiddleware',
+    #'userena.middleware.UserenaLocaleMiddleware',
 ]
 
 
@@ -149,7 +151,9 @@ TEMPLATE_DIRS = (
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
+#    'django.template.loaders.eggs.Loader',
 )
 
 FIXTURE_DIRS = (
@@ -172,7 +176,7 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 DEBUG_TOOLBAR_PANELS = (
-    'debug_toolbar_user_panel.panels.UserPanel',
+    #'debug_toolbar_user_panel.panels.UserPanel',
     #'memcache_toolbar.panels.memcache.MemcachePanel',
     'debug_toolbar.panels.version.VersionDebugPanel',
     'debug_toolbar.panels.timer.TimerDebugPanel',
