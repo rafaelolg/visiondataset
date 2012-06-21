@@ -30,6 +30,7 @@ from util import base_name
 
 DATASET_COLABORATE_PERMISSION = 'dataset_colaborate'
 
+
 ##################DETAIL AND LISDT
 class DatasetList(LoginRequiredMixin, ListView):
 
@@ -42,10 +43,6 @@ class DatasetList(LoginRequiredMixin, ListView):
                                         DATASET_COLABORATE_PERMISSION,
                                         klass=Dataset)
         return datasets
-
-    def get_context_data(self, **kwargs):
-        context = super(DatasetList, self).get_context_data(**kwargs)
-        return context
 
 
 class DatasetDetail(PermissionRequiredMixin, LoginRequiredMixin, ListView):
@@ -231,8 +228,6 @@ class DatumAttachmentCreate(LoginRequiredMixin, CreateView):
     form_class = DatumAttachmentForm
 
     def dispatch(self, request, *args, **kwargs):
-        self.kwargs = kwargs
-        self.args = args
         datum = get_object_or_404(Datum, pk=kwargs['datum_id'])
         if datum.is_user_allowed(request.user):
             return super(DatumAttachmentCreate, self).dispatch(request, *args,
@@ -263,6 +258,7 @@ def remove_colaborators(request, dataset_id, colaborator_id):
         return HttpResponseForbidden(_("You can't view this"))
     colaborator = get_object_or_404(User, pk=colaborator_id)
     remove_perm(DATASET_COLABORATE_PERMISSION, colaborator, dataset)
+    messages.success(request, _('Removed: ') + colaborator.username)
     return redirect('datasets_dataset_colaborators', dataset_id=dataset_id)
 
 
@@ -270,10 +266,8 @@ def remove_colaborators(request, dataset_id, colaborator_id):
 @login_required
 def edit_colaborators(request, dataset_id):
     dataset = get_object_or_404(Dataset, pk=dataset_id)
-
-    if request.user != dataset.owner:
+    if request.user != dataset.owner and (not request.user.is_staff):
         return HttpResponseForbidden(_("You can't view this"))
-
     if request.method == 'POST':
         form = ColaboratorForm(request.POST)
         if form.is_valid():
